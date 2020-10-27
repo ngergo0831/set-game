@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style/main.css" />
+    <link rel="stylesheet" href="style/style.css" />
     <title>Document</title>
   </head>
   <body>
-    <div class="main">
+    <div id="menu"></div>
+    <div id="main" style="display: none">
       <div id="main__left-sidebar">
         <div id="main__left-sidebar-title">Játékosok</div>
         <div class="abscenter">
@@ -39,15 +40,29 @@
           <button class="main__left-sidebar-player">Player9</button>
           <button class="main__left-sidebar-player">Player10</button>
         </div>
+        <div class="main__left-sidebar-text">Hátralévő idő:</div>
         <div id="main__left-sidebar-timer">
-          3:59
+          10
           <!--Timer-->
         </div>
       </div>
       <div id="main__cards-container">
         <!--Image cards-->
       </div>
-      <div id="main__help"><button type="submit">asdasd</button></div>
+      <div id="main__right-sidebar">
+        <div class="main__right-sidebar-text">
+          A pakliban lévő kártyák száma:
+        </div>
+        <div id="main__right-sidebar-remaining">15</div>
+        <div id="main__right-sidebar-buttons">
+          <button id="main__right-sidebar-button" type="submit">
+            Van SET a leosztásban?
+          </button>
+          <button id="main__right-sidebar-button" type="submit">
+            SET mutatása
+          </button>
+        </div>
+      </div>
     </div>
     <script type="text/javascript" src="data/cards.js"></script>
     <script type="text/javascript" src="src/index.js"></script>

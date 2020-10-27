@@ -3,10 +3,10 @@ const cardsShuffled = cards
   .sort((a, b) => a.sort - b.sort)
   .map((a) => a.value);
 
-const div = document.querySelector("#main__cards-container");
+const cardsContainer = document.querySelector("#main__cards-container");
 for (let i = 0; i < 12; i++) {
-  const x = document.createElement("IMG");
-  x.setAttribute("src", "res/cards/" + cardsShuffled[i].src);
-  x.setAttribute("id", "card" + i);
-  div.appendChild(x);
+  const img = document.createElement("IMG");
+  img.setAttribute("src", "res/cards/" + cardsShuffled[i].src);
+  img.setAttribute("id", "card" + i);
+  cardsContainer.appendChild(img);
 }

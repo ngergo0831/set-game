@@ -1,6 +1,6 @@
-@import url("game/main.css");
-@import url("left-sidebar/main.css");
-@import url("right-sidebar/main.css");
+@import url("game/play-field/play-field.css");
+@import url("game/left-sidebar/left-sidebar.css");
+@import url("game/right-sidebar/right-sidebar.css");
 
 * {
   box-sizing: border-box;
@@ -12,7 +12,7 @@ body {
   color: black;
 }
 
-.main {
+#main {
   display: grid;
   grid-template-columns: repeat(3, auto);
   grid-template-rows: auto;

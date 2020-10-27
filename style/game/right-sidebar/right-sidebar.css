@@ -1,0 +1,18 @@
+@import url("./help-buttons.css");
+@import url("./remaining-text.css");
+@import url("./remaining.css");
+
+#main__right-sidebar {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 7fr;
+  justify-items: center;
+  padding: 15px 0px;
+}
+
+.main__right-sidebar-text {
+}
+
+#main__right-sidebar-remaining {
+}
