@@ -1,6 +1,7 @@
 @import url("game/play-field/play-field.css");
 @import url("game/left-sidebar/left-sidebar.css");
 @import url("game/right-sidebar/right-sidebar.css");
+@import url("menu/menu.css");
 
 * {
   box-sizing: border-box;

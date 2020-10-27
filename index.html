@@ -4,10 +4,84 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style/style.css" />
-    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>SET - A játék</title>
   </head>
   <body>
-    <div id="menu"></div>
+    <div id="menu">
+      <div id="menu__title">SET</div>
+      <div id="menu__players">
+        <div class="menu__text">Játékosok száma</div>
+        <div id="menu__players-numbers">
+          <button class="menu__players-number" id="menu__playersNum1">1</button>
+          <button class="menu__players-number" id="menu__playersNum2">2</button>
+          <button class="menu__players-number" id="menu__playersNum3">3</button>
+          <button class="menu__players-number" id="menu__playersNum4">4</button>
+          <button class="menu__players-number" id="menu__playersNum5">5</button>
+          <button class="menu__players-number" id="menu__playersNum6">6</button>
+          <button class="menu__players-number" id="menu__playersNum7">7</button>
+          <button class="menu__players-number" id="menu__playersNum8">8</button>
+          <button class="menu__players-number" id="menu__playersNum9">9</button>
+          <button class="menu__players-number" id="menu__playersNum10">
+            10
+          </button>
+        </div>
+      </div>
+      <div id="menu__modes">
+        <div class="menu__text">Játékmód</div>
+        <div id="menu__mode-buttons">
+          <button class="menu__mode-button" id="menu__modeButton1">
+            Gyakorló
+          </button>
+          <button class="menu__mode-button" id="menu__modeButton2">
+            Verseny
+          </button>
+        </div>
+      </div>
+      <div id="menu__difficulty">
+        <div class="menu__text">Nehézség</div>
+        <div id="menu__difficulties">
+          <button
+            class="menu__difficulty-button"
+            id="menu__difficultyBtnBeginner"
+          >
+            Kezdő
+          </button>
+          <button
+            class="menu__difficulty-button"
+            id="menu__difficultyBtnIntermediate"
+          >
+            Haladó
+          </button>
+        </div>
+      </div>
+      <div id="menu__sub">
+        <div id="menu__sub-scoreboard">
+          <div class="menu__sub-text">Ranglista</div>
+          <button id="menu__subScoreboard" class="menu__sub-button">
+            <i class="fa fa-trophy"></i>
+          </button>
+        </div>
+        <div id="menu__sub-settings">
+          <div class="menu__sub-text">Egyéb beállítások</div>
+          <button id="menu__subSettings" class="menu__sub-button">
+            <i class="fa fa-cogs"></i>
+          </button>
+        </div>
+        <div id="menu__sub-rules">
+          <div class="menu__sub-text">Játékszabály</div>
+          <button id="menu__subRules" class="menu__sub-button">
+            <i class="fa fa-question"></i>
+          </button>
+        </div>
+      </div>
+      <div id="menu__start">
+        <button class="menu__start-button" id="menu__startBtn">START</button>
+      </div>
+    </div>
     <div id="main" style="display: none">
       <div id="main__left-sidebar">
         <div id="main__left-sidebar-title">Játékosok</div>
@@ -55,11 +129,26 @@
         </div>
         <div id="main__right-sidebar-remaining">15</div>
         <div id="main__right-sidebar-buttons">
-          <button id="main__right-sidebar-button" type="submit">
+          <button
+            class="main__right-sidebar-button"
+            id="main__right-sidebar-isSetButton"
+            type="submit"
+          >
             Van SET a leosztásban?
           </button>
-          <button id="main__right-sidebar-button" type="submit">
+          <button
+            class="main__right-sidebar-button"
+            id="main__right-sidebar-showSetButton"
+            type="submit"
+          >
             SET mutatása
+          </button>
+          <button
+            class="main__right-sidebar-button"
+            id="main__right-sidebar-threeCardButton"
+            type="submit"
+          >
+            Három lapos segítség
           </button>
         </div>
       </div>
