@@ -1,0 +1,13 @@
+#main__cards-container {
+  width: fit-content;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-template-rows: repeat(4, auto);
+  margin: auto;
+  justify-items: center;
+}
+
+#main__cards-container img {
+  width: 90%;
+  text-align: center;
+}

@@ -1,0 +1,14 @@
+@import url("./players.css");
+@import url("./score-buttons.css");
+@import url("./timer.css");
+@import url("./title.css");
+
+#main__left-sidebar {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 15fr 3fr;
+  margin: auto;
+  justify-items: center;
+}
