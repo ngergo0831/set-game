@@ -15,47 +15,70 @@
       <div id="menu__title">SET</div>
       <div id="menu__players">
         <div class="menu__text">Játékosok száma</div>
-        <div id="menu__players-numbers">
-          <button class="menu__players-number" id="menu__playersNum1">1</button>
-          <button class="menu__players-number" id="menu__playersNum2">2</button>
-          <button class="menu__players-number" id="menu__playersNum3">3</button>
-          <button class="menu__players-number" id="menu__playersNum4">4</button>
-          <button class="menu__players-number" id="menu__playersNum5">5</button>
-          <button class="menu__players-number" id="menu__playersNum6">6</button>
-          <button class="menu__players-number" id="menu__playersNum7">7</button>
-          <button class="menu__players-number" id="menu__playersNum8">8</button>
-          <button class="menu__players-number" id="menu__playersNum9">9</button>
-          <button class="menu__players-number" id="menu__playersNum10">
-            10
-          </button>
+        <div id="menu__player-number">
+          <button id="menu__playerNumSub">-</button>
+          <div id="menu__player-number-text">1</div>
+          <button id="menu__playerNumAdd">+</button>
         </div>
       </div>
       <div id="menu__modes">
         <div class="menu__text">Játékmód</div>
-        <div id="menu__mode-buttons">
-          <button class="menu__mode-button" id="menu__modeButton1">
-            Gyakorló
-          </button>
-          <button class="menu__mode-button" id="menu__modeButton2">
-            Verseny
-          </button>
+        <div id="menu__mode-switcher">
+          <input
+            id="menu__mode-switcher-radioPractice"
+            class="menu__mode-switcher-radio menu__mode-switcher-radioPractice"
+            name="toggle"
+            value="practice"
+            type="radio"
+            checked
+          />
+          <label
+            for="menu__mode-switcher-radioPractice"
+            class="menu__mode-switcher-label"
+            >Gyakorló</label
+          >
+          <input
+            id="menu__mode-switcher-radioCompetitive"
+            class="menu__mode-switcher-radio menu__mode-switcher-radioCompetitive"
+            name="toggle"
+            value="competitive"
+            type="radio"
+          />
+          <label
+            for="menu__mode-switcher-radioCompetitive"
+            class="menu__mode-switcher-label"
+            >Verseny&nbsp;</label
+          >
         </div>
       </div>
       <div id="menu__difficulty">
         <div class="menu__text">Nehézség</div>
-        <div id="menu__difficulties">
-          <button
-            class="menu__difficulty-button"
-            id="menu__difficultyBtnBeginner"
+        <div id="menu__difficulty">
+          <input
+            id="menu__difficulty-radioBeginner"
+            class="menu__difficulty-radio menu__difficulty-radioBeginner"
+            name="difficulty"
+            value="Kezdő"
+            type="radio"
+            checked
+          />
+          <label
+            for="menu__difficulty-radioBeginner"
+            class="menu__difficulty-label"
+            >Kezdő</label
           >
-            Kezdő
-          </button>
-          <button
-            class="menu__difficulty-button"
-            id="menu__difficultyBtnIntermediate"
+          <input
+            id="menu__difficulty-radioIntermediate"
+            class="menu__difficulty-radio menu__difficulty-radioIntermediate"
+            name="difficulty"
+            value="Haladó"
+            type="radio"
+          />
+          <label
+            for="menu__difficulty-radioIntermediate"
+            class="menu__difficulty-label"
+            >Haladó</label
           >
-            Haladó
-          </button>
         </div>
       </div>
       <div id="menu__sub">
@@ -79,10 +102,11 @@
         </div>
       </div>
       <div id="menu__start">
-        <button class="menu__start-button" id="menu__startBtn">START</button>
+        <button class="menu__start-button" id="menu__btnStart">START</button>
       </div>
     </div>
-    <div id="main" style="display: none">
+    <div id="menu-settings"></div>
+    <div id="main">
       <div id="main__left-sidebar">
         <div id="main__left-sidebar-title">Játékosok</div>
         <div class="abscenter">
@@ -101,18 +125,8 @@
             </button>
           </div>
         </div>
-        <div style="font-size: larger" id="main__left-sidebar-players">
+        <div id="main__left-sidebar-players">
           <!--Current Players-->
-          <button class="main__left-sidebar-player">Player1</button>
-          <button class="main__left-sidebar-player">Player2</button>
-          <button class="main__left-sidebar-player">Player3</button>
-          <button class="main__left-sidebar-player">Player4</button>
-          <button class="main__left-sidebar-player">Player5</button>
-          <button class="main__left-sidebar-player">Player6</button>
-          <button class="main__left-sidebar-player">Player7</button>
-          <button class="main__left-sidebar-player">Player8</button>
-          <button class="main__left-sidebar-player">Player9</button>
-          <button class="main__left-sidebar-player">Player10</button>
         </div>
         <div class="main__left-sidebar-text">Hátralévő idő:</div>
         <div id="main__left-sidebar-timer">
@@ -127,7 +141,7 @@
         <div class="main__right-sidebar-text">
           A pakliban lévő kártyák száma:
         </div>
-        <div id="main__right-sidebar-remaining">15</div>
+        <div id="main__right-sidebar-remaining"></div>
         <div id="main__right-sidebar-buttons">
           <button
             class="main__right-sidebar-button"
@@ -155,5 +169,7 @@
     </div>
     <script type="text/javascript" src="data/cards.js"></script>
     <script type="text/javascript" src="src/index.js"></script>
+    <script src="src/menu/menu.js"></script>
+    <script src="src/game/game.js"></script>
   </body>
 </html>

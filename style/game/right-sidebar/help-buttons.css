@@ -34,3 +34,7 @@
   position: relative;
   top: 1px;
 }
+
+.main__right-sidebar-button:disabled {
+  background: #dddddd86;
+}

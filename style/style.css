@@ -9,12 +9,12 @@
 }
 
 body {
-  background-color: rgb(173, 172, 177);
-  color: black;
+  background-color: #878f99;
+  color: white;
 }
 
 #main {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(3, auto);
   grid-template-rows: auto;
   margin: auto;

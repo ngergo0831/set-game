@@ -1,0 +1,17 @@
+#menu__sub-settings {
+  font-size: 1.3em;
+  text-align: center;
+  padding: 15px 25px;
+}
+#menu-settings {
+  display: none;
+  width: fit-content;
+  border: 1px solid rgba(rgb(0, 0, 0), 0.03);
+  border-radius: 30px;
+  box-shadow: -5px -5px 30px 5px red, 5px 5px 30px 5px blue;
+  padding: 40px 100px;
+  background-color: #727b85ab;
+  color: aliceblue;
+  margin: auto;
+  margin-top: 70px;
+}
