@@ -60,7 +60,6 @@
             name="difficulty"
             value="Kezdő"
             type="radio"
-            checked
           />
           <label
             for="menu__difficulty-radioBeginner"
@@ -73,6 +72,7 @@
             name="difficulty"
             value="Haladó"
             type="radio"
+            checked
           />
           <label
             for="menu__difficulty-radioIntermediate"
@@ -105,7 +105,32 @@
         <button class="menu__start-button" id="menu__btnStart">START</button>
       </div>
     </div>
-    <div id="menu-settings"></div>
+    <div id="menu-settings">
+      <div id="menu-settings-buttons">
+        <div class="menu-settings-text"></div>
+        <input
+          id="menu-settings-radioIsSetYes"
+          class="menu-settings-radio menu-settings-radioIsSetYes"
+          name="isset"
+          value="yes"
+          type="radio"
+          checked
+        />
+        <label for="menu-settings-radioIsSetYes" class="menu-settings-label"
+          >Igen</label
+        >
+        <input
+          id="menu-settings-radioIsSetNo"
+          class="menu-settings-radio menu-settings-radioIsSetNo"
+          name="isset"
+          value="no"
+          type="radio"
+        />
+        <label for="menu-settings-radioIsSetNo" class="menu-settings-label"
+          >&nbsp;Nem</label
+        >
+      </div>
+    </div>
     <div id="main">
       <div id="main__left-sidebar">
         <div id="main__left-sidebar-title">Játékosok</div>

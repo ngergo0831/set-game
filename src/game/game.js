@@ -1,4 +1,13 @@
 const players = document.querySelector("#main__left-sidebar-players");
+const showSetButton = document.querySelector(
+  "#main__right-sidebar-showSetButton"
+);
+
+const threeCardButton = document.querySelector(
+  "#main__right-sidebar-threeCardButton"
+);
+
+const isSetButton = document.querySelector("#main__right-sidebar-isSetButton");
 
 btnStart.addEventListener("click", () => {
   render();
@@ -114,10 +123,6 @@ const render = () => {
   );
   remainingCards.innerHTML = cardsShuffled.length;
 
-  const isSetButton = document.querySelector(
-    "#main__right-sidebar-isSetButton"
-  );
-
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const showHelpSet = async () => {
@@ -131,6 +136,9 @@ const render = () => {
   const startTimer = async () => {
     let player = document.querySelector("#" + currentPlayer);
     let currPoints = Number(player.innerHTML);
+    showSetButton.disabled = true;
+    isSetButton.disabled = true;
+    threeCardButton.disabled = true;
     for (let i = 9; i >= 0 && cardsActive; i--) {
       timer.innerHTML = i;
       players.style.pointerEvents = "none";
@@ -139,6 +147,13 @@ const render = () => {
     players.style.pointerEvents = "auto";
     timer.innerHTML = 10;
     cardsActive = false;
+    showSetButton.disabled = false;
+    isSetButton.disabled = false;
+    threeCardButton.disabled = false;
+    document
+      .querySelectorAll("#main__cards-container img")
+      .forEach((x) => (x.style.boxShadow = ""));
+    selectedCards = [];
     player = document.querySelector("#" + currentPlayer);
     if (Number(player.innerHTML) > 0 && Number(player.innerHTML) == currPoints)
       player.innerHTML = Number(player.innerHTML - 1);
@@ -160,10 +175,6 @@ const render = () => {
             return true;
     return false;
   };
-
-  const showSetButton = document.querySelector(
-    "#main__right-sidebar-showSetButton"
-  );
 
   const showSet = async () => {
     let cond = true;
@@ -201,10 +212,6 @@ const render = () => {
   };
 
   showSetButton.addEventListener("click", showSet);
-
-  const threeCardButton = document.querySelector(
-    "#main__right-sidebar-threeCardButton"
-  );
 
   threeCardButton.addEventListener("click", () => {
     for (let i = 0; i < 3; i++) {

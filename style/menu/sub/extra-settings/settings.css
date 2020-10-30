@@ -15,3 +15,56 @@
   margin: auto;
   margin-top: 70px;
 }
+
+/*Innen indul*/
+
+.menu__mode-switcher-label {
+  border: 3px solid #1a1a1a;
+  display: inline-block;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  box-shadow: 3px 3px #1a1a1a;
+  transition: background 600ms ease, color 600ms ease;
+}
+.menu__mode-switcher-radio {
+  display: none;
+}
+.menu__mode-switcher-radio + label {
+  cursor: pointer;
+  min-width: 60px;
+}
+.menu__mode-switcher-radio + label:hover {
+  background: none;
+  color: #1a1a1a;
+}
+.menu__mode-switcher-radio + label:after {
+  background: #1a1a1a;
+  content: "";
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transition: left 200ms cubic-bezier(0.77, 0, 0.175, 1);
+  width: 100%;
+  z-index: -1;
+}
+.menu__mode-switcher-radio.menu__mode-switcher-radioPractice + label {
+  border-right: 0;
+}
+.menu__mode-switcher-radio.menu__mode-switcher-radioPractice + label:after {
+  left: 100%;
+}
+.menu__mode-switcher-radio.menu__mode-switcher-radioCompetitive + label {
+  margin-left: -5px;
+}
+.menu__mode-switcher-radio.menu__mode-switcher-radioCompetitive + label:after {
+  left: -100%;
+}
+.menu__mode-switcher-radio:checked + label {
+  cursor: default;
+  color: #fff;
+  transition: color 200ms;
+}
+.menu__mode-switcher-radio:checked + label:after {
+  left: 0;
+}
