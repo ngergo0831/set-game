@@ -7,18 +7,28 @@ btnStart.addEventListener("click", () => {
 const render = () => {
   let clickedCardCounter = 0;
   let cardsActive = false;
+  let currentPlayer = "";
   const cardsContainer = document.querySelector("#main__cards-container");
   for (let i = 0; i < Number(playerText.innerHTML); i++) {
     const player = document.createElement("BUTTON");
     player.setAttribute("class", "main__left-sidebar-player");
     player.setAttribute("id", "player" + (i + 1));
-    player.innerHTML = "player" + (i + 1) + "0";
+    player.innerHTML = "player" + (i + 1);
     player.addEventListener("click", () => {
       let clickedCardCounter = 0;
-      startTimer();
       cardsActive = true;
+      currentPlayer = "player-points" + (i + 1);
+      startTimer();
     });
-    players.appendChild(player);
+    const score = document.createElement("DIV");
+    score.setAttribute("id", "player-points" + (i + 1));
+    score.setAttribute("class", "player-points");
+    score.innerHTML = 0;
+    const playerFlex = document.createElement("DIV");
+    playerFlex.setAttribute("class", "main__left-sidebar-player-flex");
+    playerFlex.appendChild(player);
+    playerFlex.appendChild(score);
+    players.appendChild(playerFlex);
   }
 
   const diffRadio = document.querySelector("#menu__difficulty-radioBeginner");
@@ -54,11 +64,14 @@ const render = () => {
         }
         if (clickedCardCounter == 3) {
           selectedCards = selectedCards.map((x) => x.slice(-8));
+          let player = document.querySelector("#" + currentPlayer);
           if (checkSet(selectedCards)) {
             console.log("SET");
-            //player.points++ , remove()
+            player.innerHTML = Number(player.innerHTML) + 1;
+            //remove()
           } else {
-            //player.points--
+            if (Number(player.innerHTML) > 0)
+              player.innerHTML = Number(player.innerHTML) - 1;
           }
           cardsActive = false;
           clickedCardCounter = 0;
@@ -101,15 +114,37 @@ const render = () => {
   );
   remainingCards.innerHTML = cardsShuffled.length;
 
-  const startTimer = () => {};
-
   const isSetButton = document.querySelector(
     "#main__right-sidebar-isSetButton"
   );
 
-  isSetButton.addEventListener("click", () =>
-    helpSet() ? alert("van") : alert("nincs")
-  );
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const showHelpSet = async () => {
+    isSetButton.innerHTML = helpSet() ? "Van" : "Nincs";
+    await sleep(3000);
+    isSetButton.innerHTML = "Van SET a leosztásban?";
+  };
+
+  const timer = document.querySelector("#main__left-sidebar-timer");
+
+  const startTimer = async () => {
+    let player = document.querySelector("#" + currentPlayer);
+    let currPoints = Number(player.innerHTML);
+    for (let i = 9; i >= 0 && cardsActive; i--) {
+      timer.innerHTML = i;
+      players.style.pointerEvents = "none";
+      await sleep(1000);
+    }
+    players.style.pointerEvents = "auto";
+    timer.innerHTML = 10;
+    cardsActive = false;
+    player = document.querySelector("#" + currentPlayer);
+    if (Number(player.innerHTML) > 0 && Number(player.innerHTML) == currPoints)
+      player.innerHTML = Number(player.innerHTML - 1);
+  };
+
+  isSetButton.addEventListener("click", showHelpSet);
 
   const helpSet = () => {
     for (let i = 0; i < 12; i++)
@@ -130,7 +165,7 @@ const render = () => {
     "#main__right-sidebar-showSetButton"
   );
 
-  const showSet = () => {
+  const showSet = async () => {
     let cond = true;
     for (let i = 0; i < 12 && cond; i++)
       for (let j = i + 1; j < 12 && cond; j++)
@@ -146,17 +181,21 @@ const render = () => {
               `img[src='res/cards/${onFieldCards[i].src}']`
             );
             first.style.boxShadow =
-              "-3px -3px 30px 3px red, 3px 3px 30px 3px blue";
+              "-3px -3px 30px 3px red, 3px 3px 30px 3px red";
             const second = document.querySelector(
               `img[src='res/cards/${onFieldCards[j].src}']`
             );
             second.style.boxShadow =
-              "-3px -3px 30px 3px red, 3px 3px 30px 3px blue";
+              "-3px -3px 30px 3px red, 3px 3px 30px 3px red";
             const third = document.querySelector(
               `img[src='res/cards/${onFieldCards[k].src}']`
             );
             third.style.boxShadow =
-              "-3px -3px 30px 3px red, 3px 3px 30px 3px blue";
+              "-3px -3px 30px 3px red, 3px 3px 30px 3px red";
+            await sleep(2000);
+            first.style.boxShadow = "";
+            second.style.boxShadow = "";
+            third.style.boxShadow = "";
             cond = false;
           }
   };
@@ -173,13 +212,12 @@ const render = () => {
       onFieldCards.push(cardsShuffled[i]);
       cardsShuffled = cardsShuffled.slice(1);
     }
+    remainingCards.innerHTML = cardsShuffled.length;
     const mainCardsImg = document.querySelectorAll(
       "#main__cards-container img"
     );
-    mainCardsImg.forEach((x) => (x.style.width = "70%"));
+    mainCardsImg.forEach((x) => (x.style.width = "80%"));
     threeCardButton.style.cursor = "no-drop";
     threeCardButton.disabled = true;
   });
 };
-
-//let onFieldCards = cardsShuffled.slice(0, 12);

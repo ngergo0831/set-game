@@ -1,4 +1,4 @@
-.abscenter {
+/*.abscenter {
   position: relative;
 }
 
@@ -37,4 +37,57 @@
 .main__left-sidebar-button:active {
   position: relative;
   top: 1px;
+}
+*/
+.main__left-sidebar-buttons-label {
+  border: 3px solid #1a1a1a;
+  display: inline-block;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  box-shadow: 3px 3px #1a1a1a;
+  transition: background 600ms ease, color 600ms ease;
+}
+.main__left-sidebar-radio {
+  display: none;
+}
+.main__left-sidebar-radio + label {
+  cursor: pointer;
+  min-width: 60px;
+}
+.main__left-sidebarr-radio + label:hover {
+  background: none;
+  color: #1a1a1a;
+}
+.main__left-sidebar-radio + label:after {
+  background: #1a1a1a;
+  content: "";
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transition: left 200ms cubic-bezier(0.77, 0, 0.175, 1);
+  width: 100%;
+  z-index: -1;
+}
+.main__left-sidebar-radio.main__left-sidebar-radioActual + label {
+  border-right: 0;
+  padding: 10px 20px;
+}
+.main__left-sidebar-radio.main__left-sidebar-radioActual + label:after {
+  left: 100%;
+}
+.main__left-sidebar-radio.main__left-sidebar-radioAggregated + label {
+  margin-left: -5px;
+}
+.main__left-sidebar-radio.main__left-sidebar-radioAggregated + label:after {
+  left: -100%;
+  margin-right: 4px;
+}
+.main__left-sidebar-radio:checked + label {
+  cursor: default;
+  color: #fff;
+  transition: color 200ms;
+}
+.main__left-sidebar-radio:checked + label:after {
+  left: 0;
 }

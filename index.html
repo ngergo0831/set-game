@@ -111,18 +111,31 @@
         <div id="main__left-sidebar-title">Játékosok</div>
         <div class="abscenter">
           <div id="main__left-sidebar-buttons">
-            <button
-              class="main__left-sidebar-button"
-              id="main__left-sidebar-btnActual"
+            <input
+              id="main__left-sidebar-radioActual"
+              class="main__left-sidebar-radio main__left-sidebar-radioActual"
+              name="main-radio"
+              value="actual"
+              type="radio"
+              checked
+            />
+            <label
+              for="main__left-sidebar-radioActual"
+              class="main__left-sidebar-buttons-label"
+              >Aktuális</label
             >
-              Aktuális
-            </button>
-            <button
-              class="main__left-sidebar-button"
-              id="main__left-sidebar-btnAggregated"
+            <input
+              id="main__left-sidebar-radioAggregated"
+              class="main__left-sidebar-radio main__left-sidebar-radioAggregated"
+              name="main-radio"
+              value="aggregated"
+              type="radio"
+            />
+            <label
+              for="main__left-sidebar-radioAggregated"
+              class="main__left-sidebar-buttons-label"
+              >Összesített</label
             >
-              Összesített
-            </button>
           </div>
         </div>
         <div id="main__left-sidebar-players">
