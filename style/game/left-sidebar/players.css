@@ -23,6 +23,8 @@
   padding: 6px 16px;
   text-decoration: none;
   outline: none;
+  white-space: nowrap;
+  text-align: center;
 }
 
 .main__left-sidebar-player:hover {

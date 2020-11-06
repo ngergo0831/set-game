@@ -107,28 +107,186 @@
     </div>
     <div id="menu-settings">
       <div id="menu-settings-buttons">
-        <div class="menu-settings-text"></div>
-        <input
-          id="menu-settings-radioIsSetYes"
-          class="menu-settings-radio menu-settings-radioIsSetYes"
-          name="isset"
-          value="yes"
-          type="radio"
-          checked
-        />
-        <label for="menu-settings-radioIsSetYes" class="menu-settings-label"
-          >Igen</label
+        <div class="menu-settings-title">Extra beállítások</div>
+        <div class="menu-settings-buttons-flex">
+          <div class="menu-settings-text">
+            <i>Segítség: </i>Van-e SET a leosztásban
+          </div>
+          <input
+            id="menu-settings-radioIsSetYes"
+            class="menu-settings-radio menu-settings-radioIsSetYes"
+            name="isset"
+            value="yes"
+            type="radio"
+            checked
+          />
+          <label for="menu-settings-radioIsSetYes" class="menu-settings-label"
+            >Bekapcsolva</label
+          >
+          <input
+            id="menu-settings-radioIsSetNo"
+            class="menu-settings-radio menu-settings-radioIsSetNo"
+            name="isset"
+            value="no"
+            type="radio"
+          />
+          <label for="menu-settings-radioIsSetNo" class="menu-settings-label"
+            >Kikapcsolva</label
+          >
+        </div>
+        <div class="menu-settings-buttons-flex">
+          <div class="menu-settings-text">
+            <i>Segítség: </i>SET mutatása gomb
+            <div class="w255"></div>
+          </div>
+          <input
+            id="menu-settings-radioShowSetYes"
+            class="menu-settings-radio menu-settings-radioIsSetYes"
+            name="showset"
+            value="yes"
+            type="radio"
+            checked
+          />
+          <label for="menu-settings-radioShowSetYes" class="menu-settings-label"
+            >Bekapcsolva</label
+          >
+          <input
+            id="menu-settings-radioShowSetNo"
+            class="menu-settings-radio menu-settings-radioIsSetNo"
+            name="showset"
+            value="no"
+            type="radio"
+          />
+          <label for="menu-settings-radioShowSetNo" class="menu-settings-label"
+            >Kikapcsolva</label
+          >
+        </div>
+        <div class="menu-settings-buttons-flex">
+          <div class="menu-settings-text">
+            Három lapos segítség
+            <div class="w255"></div>
+          </div>
+          <input
+            id="menu-settings-radioThreeCardYes"
+            class="menu-settings-radio menu-settings-radioIsSetYes"
+            name="threecard"
+            value="yes"
+            type="radio"
+            checked
+          />
+          <label
+            for="menu-settings-radioThreeCardYes"
+            class="menu-settings-label"
+            >Automatikus</label
+          >
+          <input
+            id="menu-settings-radioThreeCardNo"
+            class="menu-settings-radio menu-settings-radioIsSetNo"
+            name="threecard"
+            value="no"
+            type="radio"
+          />
+          <label
+            for="menu-settings-radioThreeCardNo"
+            class="menu-settings-label"
+            >&nbsp;&nbsp;Manuális&nbsp;&nbsp;</label
+          >
+        </div>
+        <div class="menu-settings-buttons-flex">
+          <div id="menu-settings-player-names" class="menu-settings-playerset">
+            Játékosok nevének beállítása
+          </div>
+        </div>
+        <button id="menu-settings-btnBack">Vissza a menübe</button>
+      </div>
+    </div>
+    <div id="menu-rules">
+      <div class="menu-rules-title">Játékszabály</div>
+      A játék célja, hogy 3 kártyából álló SET-eket találjunk meg az asztalra
+      lehelyezett <br />12 kártyából.Minden kártyának 4 tulajdonsága van, amik a
+      következők:
+      <ul>
+        <li>
+          <strong>FORMA:</strong>
+          ovális, hullámos, rombusz
+        </li>
+        <li>
+          <strong>SZÍN:</strong>
+          piros, zöld, lila
+        </li>
+        <li>
+          <strong>SZÁM:</strong>
+          1, 2 vagy 3 forma
+        </li>
+        <li>
+          <strong>TARTALOM:</strong>
+          tömör, csíkos, üres (csak Haladó játékmódban)
+        </li>
+      </ul>
+      Egy SET 3 kártyából áll, amiben minden jellemzőt külön megvizsgálva,
+      azoknak
+      <ul>
+        <li>vagy minden kártyán azonosnak,</li>
+        <li>vagy minden kártyán különbözőnek kell lennie.</li>
+      </ul>
+      Ennek a szabálynak MINDEN tulajdonság esetében meg kell felelnie a
+      kiválasztott <br />három lapnak. Más szavakkal: a forma vagy azononos
+      mindhárom kártyán, vagy <br />mindegyiken más; a szín vagy azonos
+      mindhárom kártyán, vagy mindegyiken <br />különböző, stb... Fordítva: ha a
+      lapokon egy tulajdonságot vizsgálva 2 azonos<br />
+      és 1 különböző típus látható, akkor az nem SET. <br />Például, ha 2 lap
+      piros, 1 pedig lila, akkor az nem SET.<br />
+      <div class="menu-rules-links">
+        <a
+          href="https://www.masterbaboon.com/wp-content/uploads/2010/09/sets_examples1-1024x586.png"
+          target="_blank"
+          >Helyes és helytelen SET-ek.</a
         >
-        <input
-          id="menu-settings-radioIsSetNo"
-          class="menu-settings-radio menu-settings-radioIsSetNo"
-          name="isset"
-          value="no"
-          type="radio"
-        />
-        <label for="menu-settings-radioIsSetNo" class="menu-settings-label"
-          >&nbsp;Nem</label
+        <a
+          href="https://fejlesztojatekvilag.hu/uploaded/set_magyar_szabaly.pdf"
+          target="_blank"
+          >Az eredeti kártyajáték szabálya.</a
         >
+      </div>
+      <button id="menu-rules-btnBack">Vissza a menübe</button>
+    </div>
+    <div id="menu-player-names">
+      <div class="menu-settings-players-flex">
+        <div class="menu-settings-players-title">Játékosok neve</div>
+        <div class="menu-settings-players-help">
+          (Legalább 1, legfeljebb 15 karakter)
+        </div>
+        <div class="menu-settings-players">
+          <div class="menu-settings-players-text">1&nbsp; -</div>
+        </div>
+        <div class="menu-settings-players">
+          <div class="menu-settings-players-text">2&nbsp; -</div>
+        </div>
+        <div class="menu-settings-players">
+          <div class="menu-settings-players-text">3&nbsp; -</div>
+        </div>
+        <div class="menu-settings-players">
+          <div class="menu-settings-players-text">4&nbsp; -</div>
+        </div>
+        <div class="menu-settings-players">
+          <div class="menu-settings-players-text">5&nbsp; -</div>
+        </div>
+        <div class="menu-settings-players">
+          <div class="menu-settings-players-text">6&nbsp; -</div>
+        </div>
+        <div class="menu-settings-players">
+          <div class="menu-settings-players-text">7&nbsp; -</div>
+        </div>
+        <div class="menu-settings-players">
+          <div class="menu-settings-players-text">8&nbsp; -</div>
+        </div>
+        <div class="menu-settings-players">
+          <div class="menu-settings-players-text">9&nbsp; -</div>
+        </div>
+        <div class="menu-settings-players">
+          <div class="menu-settings-players-text">10 -</div>
+        </div>
+        <button id="menu-settings-playerBackButton">Vissza</button>
       </div>
     </div>
     <div id="main">

@@ -22,7 +22,7 @@ const render = () => {
     const player = document.createElement("BUTTON");
     player.setAttribute("class", "main__left-sidebar-player");
     player.setAttribute("id", "player" + (i + 1));
-    player.innerHTML = "player" + (i + 1);
+    player.innerHTML = playerNames[i];
     player.addEventListener("click", () => {
       let clickedCardCounter = 0;
       cardsActive = true;
@@ -55,6 +55,7 @@ const render = () => {
   let selectedCards = [];
   let onFieldCards = cardsShuffled.slice(0, 12);
   cardsShuffled = cardsShuffled.slice(12);
+  console.log(cardsShuffled);
 
   const createCards = (card, i) => {
     const img = document.createElement("IMG");

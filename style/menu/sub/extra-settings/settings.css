@@ -9,16 +9,55 @@
   border: 1px solid rgba(rgb(0, 0, 0), 0.03);
   border-radius: 30px;
   box-shadow: -5px -5px 30px 5px red, 5px 5px 30px 5px blue;
-  padding: 40px 100px;
+  padding: 40px 91px;
   background-color: #727b85ab;
-  color: aliceblue;
   margin: auto;
   margin-top: 70px;
 }
 
-/*Innen indul*/
+#menu-settings-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-.menu__mode-switcher-label {
+.menu-settings-buttons-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 22px 15px;
+  width: fit-content;
+}
+
+.menu-settings-text {
+  margin-right: 30px;
+}
+
+.w255 {
+  width: 255px;
+}
+
+.menu-settings-playerset {
+  margin-top: 50px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-align: center;
+  align-self: center;
+}
+
+.menu-settings-playerset:hover {
+  color: #ffffff;
+}
+
+.menu-settings-title {
+  font-size: 1.8em;
+  margin-bottom: 94px;
+  text-align: center;
+}
+
+/*Első sor*/
+
+.menu-settings-label {
   border: 3px solid #1a1a1a;
   display: inline-block;
   padding: 10px;
@@ -27,18 +66,18 @@
   box-shadow: 3px 3px #1a1a1a;
   transition: background 600ms ease, color 600ms ease;
 }
-.menu__mode-switcher-radio {
+.menu-settings-radio {
   display: none;
 }
-.menu__mode-switcher-radio + label {
+.menu-settings-radio + label {
   cursor: pointer;
   min-width: 60px;
 }
-.menu__mode-switcher-radio + label:hover {
+.menu-settings-radio + label:hover {
   background: none;
   color: #1a1a1a;
 }
-.menu__mode-switcher-radio + label:after {
+.menu-settings-radio + label:after {
   background: #1a1a1a;
   content: "";
   height: 100%;
@@ -48,23 +87,47 @@
   width: 100%;
   z-index: -1;
 }
-.menu__mode-switcher-radio.menu__mode-switcher-radioPractice + label {
+.menu-settings-radio.menu-settings-radioIsSetYes + label {
   border-right: 0;
 }
-.menu__mode-switcher-radio.menu__mode-switcher-radioPractice + label:after {
+.menu-settings-radio.menu-settings-radioIsSetYes + label:after {
   left: 100%;
 }
-.menu__mode-switcher-radio.menu__mode-switcher-radioCompetitive + label {
-  margin-left: -5px;
-}
-.menu__mode-switcher-radio.menu__mode-switcher-radioCompetitive + label:after {
+
+.menu-settings-radio.menu-settings-radioIsSetNo + label:after {
   left: -100%;
 }
-.menu__mode-switcher-radio:checked + label {
+.menu-settings-radio:checked + label {
   cursor: default;
   color: #fff;
   transition: color 200ms;
 }
-.menu__mode-switcher-radio:checked + label:after {
+.menu-settings-radio:checked + label:after {
   left: 0;
+}
+
+/* Vissza gomb */
+
+#menu-settings-btnBack {
+  margin: 15px;
+  margin-top: 90px;
+  font-size: 1.3em;
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid black;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  text-align: center;
+  transition: all 0.2s;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  margin-bottom: 60px;
+}
+
+#menu-settings-btnBack:hover {
+  background-color: #ffffff;
 }
