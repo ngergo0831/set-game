@@ -5,16 +5,16 @@ const playerText = document.querySelector("#menu__player-number-text");
 subBtn.disabled = true;
 
 let playerNames = [
-  "player1",
-  "player2",
-  "player3",
-  "player4",
-  "player5",
-  "player6",
-  "player7",
-  "player8",
-  "player9",
-  "player10",
+  "Játékos1",
+  "Játékos2",
+  "Játékos3",
+  "Játékos4",
+  "Játékos5",
+  "Játékos6",
+  "Játékos7",
+  "Játékos8",
+  "Játékos9",
+  "Játékos10",
 ];
 
 subBtn.addEventListener("click", () => {
@@ -131,12 +131,25 @@ const radioThreeCardNo = document.querySelector(
 );
 
 modePractice.addEventListener("click", () => {
-  //enable extra settings
+  radioIsSetYes.disabled = false;
+  radioIsSetNo.disabled = false;
+  radioIsSetYes.checked = true;
+
+  radioShowSetYes.disabled = false;
+  radioShowSetNo.disabled = false;
+  radioShowSetYes.checked = true;
+
+  radioThreeCardYes.disabled = false;
+  radioThreeCardNo.disabled = false;
+  radioThreeCardNo.checked = true;
+
+  radioLabel.forEach((x) => {
+    x.style.cursor = "pointer";
+  });
   //1 személyes nincs időmérés
 });
 
 modeCompetitive.addEventListener("click", () => {
-  //extra settings disabled
   radioIsSetYes.disabled = true;
   radioIsSetNo.disabled = true;
   radioIsSetNo.checked = true;
@@ -147,6 +160,7 @@ modeCompetitive.addEventListener("click", () => {
 
   radioThreeCardYes.disabled = true;
   radioThreeCardNo.disabled = true;
+  radioThreeCardYes.checked = true;
 
   radioLabel.forEach((x) => {
     x.style.cursor = "no-drop";

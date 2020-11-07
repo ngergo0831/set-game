@@ -9,11 +9,16 @@ const threeCardButton = document.querySelector(
 
 const isSetButton = document.querySelector("#main__right-sidebar-isSetButton");
 
+const remainingCards = document.querySelector("#main__right-sidebar-remaining");
+
 btnStart.addEventListener("click", () => {
   render();
 });
 
 const render = () => {
+  showSetButton.disabled = radioShowSetNo.checked;
+  threeCardButton.disabled = radioThreeCardYes.checked;
+  isSetButton.disabled = radioIsSetNo.checked;
   let clickedCardCounter = 0;
   let cardsActive = false;
   let currentPlayer = "";
@@ -27,7 +32,8 @@ const render = () => {
       let clickedCardCounter = 0;
       cardsActive = true;
       currentPlayer = "player-points" + (i + 1);
-      startTimer();
+      player.style.color = "blue";
+      startTimer(player);
     });
     const score = document.createElement("DIV");
     score.setAttribute("id", "player-points" + (i + 1));
@@ -55,7 +61,6 @@ const render = () => {
   let selectedCards = [];
   let onFieldCards = cardsShuffled.slice(0, 12);
   cardsShuffled = cardsShuffled.slice(12);
-  console.log(cardsShuffled);
 
   const createCards = (card, i) => {
     const img = document.createElement("IMG");
@@ -78,7 +83,52 @@ const render = () => {
           if (checkSet(selectedCards)) {
             console.log("SET");
             player.innerHTML = Number(player.innerHTML) + 1;
-            //remove()
+            for (let i = 0; i < 3; i++) {
+              onFieldCards.forEach((x, j) => {
+                if (x.src === selectedCards[i]) {
+                  if (cardsShuffled.length == 0) {
+                    onFieldCards[j].src = "no-more-card.png";
+                    onFieldCards[j].color = "off";
+                    onFieldCards[j].content = "off";
+                    onFieldCards[j].num = "off";
+                    onFieldCards[j].shape = "off";
+                  } else {
+                    onFieldCards[j] = cardsShuffled[0];
+                    cardsShuffled = cardsShuffled.slice(1);
+                  }
+                }
+              });
+            }
+            for (let i = 0; i < 3 && cardsShuffled.length != 0; i++) {
+              document
+                .querySelectorAll("#main__cards-container img")
+                .forEach((x, j) => {
+                  if (x.src.slice(-8) === selectedCards[i]) {
+                    x.src = "res/cards/" + onFieldCards[j].src;
+                  }
+                });
+            }
+            for (let i = 0; i < 3; i++) {
+              if (cardsShuffled.length == 0) {
+                document
+                  .querySelectorAll("#main__cards-container img")
+                  .forEach((x, j) => {
+                    if (x.src.slice(-8) === selectedCards[i]) {
+                      x.src = "res/cards/no-more-card.png";
+                      x.style.cursor = "no-drop";
+                      x.style.pointerEvents = "none";
+                      onFieldCards[j].src = "no-more-card.png";
+                      onFieldCards[j].color = "off";
+                      onFieldCards[j].content = "off";
+                      onFieldCards[j].num = "off";
+                      onFieldCards[j].shape = "off";
+                      threeCardButton.disabled = true;
+                    }
+                  });
+              }
+            }
+            //tiltott játékosok . enabled
+            remainingCards.innerHTML = cardsShuffled.length;
           } else {
             if (Number(player.innerHTML) > 0)
               player.innerHTML = Number(player.innerHTML) - 1;
@@ -119,9 +169,6 @@ const render = () => {
     );
   };
 
-  const remainingCards = document.querySelector(
-    "#main__right-sidebar-remaining"
-  );
   remainingCards.innerHTML = cardsShuffled.length;
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -134,7 +181,7 @@ const render = () => {
 
   const timer = document.querySelector("#main__left-sidebar-timer");
 
-  const startTimer = async () => {
+  const startTimer = async (cplayer) => {
     let player = document.querySelector("#" + currentPlayer);
     let currPoints = Number(player.innerHTML);
     showSetButton.disabled = true;
@@ -155,7 +202,9 @@ const render = () => {
       .querySelectorAll("#main__cards-container img")
       .forEach((x) => (x.style.boxShadow = ""));
     selectedCards = [];
+    clickedCardCounter = 0;
     player = document.querySelector("#" + currentPlayer);
+    cplayer.style.color = "black";
     if (Number(player.innerHTML) > 0 && Number(player.innerHTML) == currPoints)
       player.innerHTML = Number(player.innerHTML - 1);
   };
@@ -163,57 +212,76 @@ const render = () => {
   isSetButton.addEventListener("click", showHelpSet);
 
   const helpSet = () => {
-    for (let i = 0; i < 12; i++)
-      for (let j = i + 1; j < 12; j++)
-        for (let k = j + 1; k < 12; k++)
+    for (let i = 0; i < 12; i++) {
+      for (let j = i + 1; j < 12; j++) {
+        for (let k = j + 1; k < 12; k++) {
           if (
-            checkSet([
-              onFieldCards[i].src,
-              onFieldCards[j].src,
-              onFieldCards[k].src,
-            ])
-          )
-            return true;
+            onFieldCards[i].src !== "no-more-card.png" &&
+            onFieldCards[j].src !== "no-more-card.png" &&
+            onFieldCards[k].src !== "no-more-card.png"
+          ) {
+            if (
+              checkSet([
+                onFieldCards[i].src,
+                onFieldCards[j].src,
+                onFieldCards[k].src,
+              ])
+            ) {
+              return true;
+            }
+          }
+        }
+      }
+    }
     return false;
   };
 
   const showSet = async () => {
+    const tempPlayers = document.querySelectorAll(
+      "#main__left-sidebar-players button"
+    );
+    tempPlayers.forEach((x) => (x.style.pointerEvents = "none"));
     let cond = true;
     for (let i = 0; i < 12 && cond; i++)
       for (let j = i + 1; j < 12 && cond; j++)
         for (let k = j + 1; k < 12 && cond; k++)
           if (
-            checkSet([
-              onFieldCards[i].src,
-              onFieldCards[j].src,
-              onFieldCards[k].src,
-            ])
-          ) {
-            const first = document.querySelector(
-              `img[src='res/cards/${onFieldCards[i].src}']`
-            );
-            first.style.boxShadow =
-              "-3px -3px 30px 3px red, 3px 3px 30px 3px red";
-            const second = document.querySelector(
-              `img[src='res/cards/${onFieldCards[j].src}']`
-            );
-            second.style.boxShadow =
-              "-3px -3px 30px 3px red, 3px 3px 30px 3px red";
-            const third = document.querySelector(
-              `img[src='res/cards/${onFieldCards[k].src}']`
-            );
-            third.style.boxShadow =
-              "-3px -3px 30px 3px red, 3px 3px 30px 3px red";
-            await sleep(2000);
-            first.style.boxShadow = "";
-            second.style.boxShadow = "";
-            third.style.boxShadow = "";
-            cond = false;
-          }
+            onFieldCards[i].src !== "no-more-card.png" &&
+            onFieldCards[j].src !== "no-more-card.png" &&
+            onFieldCards[k].src !== "no-more-card.png"
+          )
+            if (
+              checkSet([
+                onFieldCards[i].src,
+                onFieldCards[j].src,
+                onFieldCards[k].src,
+              ])
+            ) {
+              const first = document.querySelector(
+                `img[src='res/cards/${onFieldCards[i].src}']`
+              );
+              first.style.boxShadow =
+                "-3px -3px 30px 3px red, 3px 3px 30px 3px red";
+              const second = document.querySelector(
+                `img[src='res/cards/${onFieldCards[j].src}']`
+              );
+              second.style.boxShadow =
+                "-3px -3px 30px 3px red, 3px 3px 30px 3px red";
+              const third = document.querySelector(
+                `img[src='res/cards/${onFieldCards[k].src}']`
+              );
+              third.style.boxShadow =
+                "-3px -3px 30px 3px red, 3px 3px 30px 3px red";
+              await sleep(2000);
+              first.style.boxShadow = "";
+              second.style.boxShadow = "";
+              third.style.boxShadow = "";
+              cond = false;
+              tempPlayers.forEach((x) => (x.style.pointerEvents = "auto"));
+            }
   };
 
   showSetButton.addEventListener("click", showSet);
-
   threeCardButton.addEventListener("click", () => {
     for (let i = 0; i < 3; i++) {
       createCards(cardsShuffled[i], i + 13);
