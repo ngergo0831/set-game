@@ -108,3 +108,48 @@ playerNameText.forEach((x, i) => {
   });
   x.appendChild(input);
 });
+
+const modePractice = document.querySelector(
+  "#menu__mode-switcher-radioPractice"
+);
+const modeCompetitive = document.querySelector(
+  "#menu__mode-switcher-radioCompetitive"
+);
+
+const radioIsSetYes = document.querySelector("#menu-settings-radioIsSetYes");
+const radioIsSetNo = document.querySelector("#menu-settings-radioIsSetNo");
+const radioLabel = document.querySelectorAll(".menu-settings-label");
+const radioShowSetYes = document.querySelector(
+  "#menu-settings-radioShowSetYes"
+);
+const radioShowSetNo = document.querySelector("#menu-settings-radioShowSetNo");
+const radioThreeCardYes = document.querySelector(
+  "#menu-settings-radioThreeCardYes"
+);
+const radioThreeCardNo = document.querySelector(
+  "#menu-settings-radioThreeCardNo"
+);
+
+modePractice.addEventListener("click", () => {
+  //enable extra settings
+  //1 személyes nincs időmérés
+});
+
+modeCompetitive.addEventListener("click", () => {
+  //extra settings disabled
+  radioIsSetYes.disabled = true;
+  radioIsSetNo.disabled = true;
+  radioIsSetNo.checked = true;
+
+  radioShowSetYes.disabled = true;
+  radioShowSetNo.disabled = true;
+  radioShowSetNo.checked = true;
+
+  radioThreeCardYes.disabled = true;
+  radioThreeCardNo.disabled = true;
+
+  radioLabel.forEach((x) => {
+    x.style.cursor = "no-drop";
+  });
+  //1 személy van időmérés
+});
