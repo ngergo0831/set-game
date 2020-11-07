@@ -1,5 +1,5 @@
-Nagy Gergő
-CS4LP6
+Nagy Gergő\
+CS4LP6\
 Webprogramozás - számonkérés
 Ezt a megoldást a fent írt hallgató küldte be és készítette a Webprogramozás kurzus számonkéréséhez.
 Kijelentem, hogy ez a megoldás a saját munkám. Nem másoltam vagy használtam harmadik féltől
