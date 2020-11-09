@@ -11,6 +11,25 @@ const isSetButton = document.querySelector("#main__right-sidebar-isSetButton");
 
 const remainingCards = document.querySelector("#main__right-sidebar-remaining");
 
+const numberOfPlayers = document.querySelector("#menu__player-number-text");
+
+let gameFinished = false;
+
+const timer = document.querySelector("#main__left-sidebar-timer");
+const timerText = document.querySelector("#main__left-sidebar-remainingTime");
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const timerOnePlayer = async () => {
+  timer.innerHTML = 0;
+  timerText.innerHTML = "Eltelt idő";
+  //while !end
+  while (!gameFinished) {
+    await sleep(1000);
+    timer.innerHTML = Number(timer.innerHTML) + 1;
+  }
+};
+
 btnStart.addEventListener("click", () => {
   render();
 });
@@ -22,6 +41,7 @@ const render = () => {
   let clickedCardCounter = 0;
   let cardsActive = false;
   let currentPlayer = "";
+  if (Number(numberOfPlayers.innerHTML) == 1) timerOnePlayer();
   const cardsContainer = document.querySelector("#main__cards-container");
   for (let i = 0; i < Number(playerText.innerHTML); i++) {
     const player = document.createElement("BUTTON");
@@ -29,12 +49,19 @@ const render = () => {
     player.setAttribute("id", "player" + (i + 1));
     player.innerHTML = playerNames[i];
     player.addEventListener("click", () => {
-      let clickedCardCounter = 0;
+      clickedCardCounter = 0;
       cardsActive = true;
       currentPlayer = "player-points" + (i + 1);
       player.style.color = "blue";
-      startTimer(player);
+      if (Number(numberOfPlayers.innerHTML) > 1) startTimer(player);
     });
+
+    if (Number(numberOfPlayers.innerHTML) == 1) {
+      cardsActive = true;
+      currentPlayer = "player-points" + 1;
+      player.style.color = "blue";
+      player.style.pointerEvents = "none";
+    }
     const score = document.createElement("DIV");
     score.setAttribute("id", "player-points" + (i + 1));
     score.setAttribute("class", "player-points");
@@ -133,7 +160,7 @@ const render = () => {
             if (Number(player.innerHTML) > 0)
               player.innerHTML = Number(player.innerHTML) - 1;
           }
-          cardsActive = false;
+          if (Number(numberOfPlayers.innerHTML) > 1) cardsActive = false;
           clickedCardCounter = 0;
           document
             .querySelectorAll("#main__cards-container img")
@@ -171,15 +198,11 @@ const render = () => {
 
   remainingCards.innerHTML = cardsShuffled.length;
 
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
   const showHelpSet = async () => {
     isSetButton.innerHTML = helpSet() ? "Van" : "Nincs";
     await sleep(3000);
     isSetButton.innerHTML = "Van SET a leosztásban?";
   };
-
-  const timer = document.querySelector("#main__left-sidebar-timer");
 
   const startTimer = async (cplayer) => {
     let player = document.querySelector("#" + currentPlayer);
@@ -197,7 +220,7 @@ const render = () => {
     cardsActive = false;
     showSetButton.disabled = false;
     isSetButton.disabled = false;
-    threeCardButton.disabled = false;
+    if (cardsShuffled.length !== 0) threeCardButton.disabled = false;
     document
       .querySelectorAll("#main__cards-container img")
       .forEach((x) => (x.style.boxShadow = ""));

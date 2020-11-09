@@ -240,11 +240,13 @@
         <a
           href="https://www.masterbaboon.com/wp-content/uploads/2010/09/sets_examples1-1024x586.png"
           target="_blank"
+          rel="noopener noreferrer"
           >Helyes és helytelen SET-ek.</a
         >
         <a
           href="https://fejlesztojatekvilag.hu/uploaded/set_magyar_szabaly.pdf"
           target="_blank"
+          rel="noopener noreferrer"
           >Az eredeti kártyajáték szabálya.</a
         >
       </div>
@@ -324,7 +326,12 @@
         <div id="main__left-sidebar-players">
           <!--Current Players-->
         </div>
-        <div class="main__left-sidebar-text">Hátralévő idő:</div>
+        <div
+          class="main__left-sidebar-text"
+          id="main__left-sidebar-remainingTime"
+        >
+          Hátralévő idő:
+        </div>
         <div id="main__left-sidebar-timer">
           10
           <!--Timer-->
@@ -363,6 +370,7 @@
         </div>
       </div>
     </div>
+    <div id="game-over"></div>
     <script type="text/javascript" src="data/cards.js"></script>
     <script type="text/javascript" src="src/index.js"></script>
     <script src="src/menu/menu.js"></script>
