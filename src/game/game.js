@@ -14,6 +14,7 @@ const timerText = document.querySelector("#main__left-sidebar-remainingTime");
 let gameFinished = false;
 let playerDisabled = false;
 let enabledPlayers = Number(numberOfPlayers.innerHTML);
+let numOfFieldCards = 12;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -72,18 +73,71 @@ const render = () => {
 
   const diffRadio = document.querySelector("#menu__difficulty-radioBeginner");
 
-  let cardsShuffled = diffRadio.checked
-    ? cards
-        .filter((a) => a.content === "solid")
-        .map((a) => ({ sort: Math.random(), value: a }))
-        .sort((a, b) => a.sort - b.sort)
-        .map((a) => a.value)
-    : cards
-        .map((a) => ({ sort: Math.random(), value: a }))
-        .sort((a, b) => a.sort - b.sort)
-        .map((a) => a.value);
+  const checkSet = (selectedCardss) => {
+    const cardsDetails = selectedCardss.map(
+      (e) => onFieldCards.filter((x) => x.src === e)[0]
+    );
+    let num = new Set();
+    let color = new Set();
+    let shape = new Set();
+    let content = new Set();
+    cardsDetails.forEach((x) => {
+      num.add(x.num);
+      color.add(x.color);
+      shape.add(x.shape);
+      content.add(x.content);
+    });
+    return (
+      num.size !== 2 &&
+      color.size !== 2 &&
+      shape.size !== 2 &&
+      content.size !== 2
+    );
+  };
+
+  const helpSet = () => {
+    for (let i = 0; i < numOfFieldCards; i++) {
+      for (let j = i + 1; j < numOfFieldCards; j++) {
+        for (let k = j + 1; k < numOfFieldCards; k++) {
+          if (
+            onFieldCards[i].src !== "no-more-card.png" &&
+            onFieldCards[j].src !== "no-more-card.png" &&
+            onFieldCards[k].src !== "no-more-card.png"
+          ) {
+            if (
+              checkSet([
+                onFieldCards[i].src,
+                onFieldCards[j].src,
+                onFieldCards[k].src,
+              ])
+            ) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
+  };
+
+  let cardsShuffled;
   let selectedCards = [];
-  let onFieldCards = cardsShuffled.slice(0, 12);
+  let onFieldCards;
+  let isCardsGood;
+  do {
+    cardsShuffled = diffRadio.checked
+      ? cards
+          .filter((a) => a.content === "solid")
+          .map((a) => ({ sort: Math.random(), value: a }))
+          .sort((a, b) => a.sort - b.sort)
+          .map((a) => a.value)
+      : cards
+          .map((a) => ({ sort: Math.random(), value: a }))
+          .sort((a, b) => a.sort - b.sort)
+          .map((a) => a.value);
+    onFieldCards = cardsShuffled.slice(0, 12);
+    isCardsGood = helpSet();
+  } while (!isCardsGood);
   cardsShuffled = cardsShuffled.slice(12);
   console.log("Pakliban lévő kártyák:");
   console.log(cardsShuffled);
@@ -155,11 +209,12 @@ const render = () => {
             const playerButtons = document.querySelectorAll(
               ".main__left-sidebar-player"
             );
-            playerButtons.forEach((x) => {
-              x.style.pointerEvents = "all";
-              x.style.color = "black";
-              x.style.cursor = "pointer";
-            });
+            if (Number(numberOfPlayers.innerHTML) > 1)
+              playerButtons.forEach((x) => {
+                x.style.pointerEvents = "all";
+                x.style.color = "black";
+                x.style.cursor = "pointer";
+              });
             playerDisabled = false;
             remainingCards.innerHTML = cardsShuffled.length;
           } else {
@@ -206,28 +261,6 @@ const render = () => {
   };
 
   onFieldCards.forEach((card, i) => createCards(card, i));
-
-  const checkSet = (selectedCards) => {
-    const cardsDetails = selectedCards.map(
-      (e) => onFieldCards.filter((x) => x.src === e)[0]
-    );
-    let num = new Set();
-    let color = new Set();
-    let shape = new Set();
-    let content = new Set();
-    cardsDetails.forEach((x) => {
-      num.add(x.num);
-      color.add(x.color);
-      shape.add(x.shape);
-      content.add(x.content);
-    });
-    return (
-      num.size !== 2 &&
-      color.size !== 2 &&
-      shape.size !== 2 &&
-      content.size !== 2
-    );
-  };
 
   remainingCards.innerHTML = cardsShuffled.length;
 
@@ -294,40 +327,15 @@ const render = () => {
 
   isSetButton.addEventListener("click", showHelpSet);
 
-  const helpSet = () => {
-    for (let i = 0; i < 12; i++) {
-      for (let j = i + 1; j < 12; j++) {
-        for (let k = j + 1; k < 12; k++) {
-          if (
-            onFieldCards[i].src !== "no-more-card.png" &&
-            onFieldCards[j].src !== "no-more-card.png" &&
-            onFieldCards[k].src !== "no-more-card.png"
-          ) {
-            if (
-              checkSet([
-                onFieldCards[i].src,
-                onFieldCards[j].src,
-                onFieldCards[k].src,
-              ])
-            ) {
-              return true;
-            }
-          }
-        }
-      }
-    }
-    return false;
-  };
-
   const showSet = async () => {
     const tempPlayers = document.querySelectorAll(
       "#main__left-sidebar-players button"
     );
     tempPlayers.forEach((x) => (x.style.pointerEvents = "none"));
     let cond = true;
-    for (let i = 0; i < 12 && cond; i++)
-      for (let j = i + 1; j < 12 && cond; j++)
-        for (let k = j + 1; k < 12 && cond; k++)
+    for (let i = 0; i < numOfFieldCards && cond; i++)
+      for (let j = i + 1; j < numOfFieldCards && cond; j++)
+        for (let k = j + 1; k < numOfFieldCards && cond; k++)
           if (
             onFieldCards[i].src !== "no-more-card.png" &&
             onFieldCards[j].src !== "no-more-card.png" &&
@@ -355,7 +363,7 @@ const render = () => {
               );
               third.style.boxShadow =
                 "-3px -3px 30px 3px red, 3px 3px 30px 3px red";
-              await sleep(2000);
+              await sleep(1200);
               first.style.boxShadow = "";
               second.style.boxShadow = "";
               third.style.boxShadow = "";
@@ -367,9 +375,10 @@ const render = () => {
   showSetButton.addEventListener("click", showSet);
   threeCardButton.addEventListener("click", () => {
     for (let i = 0; i < 3; i++) {
-      createCards(cardsShuffled[i], i + 13);
+      createCards(cardsShuffled[i], i + (numOfFieldCards + 1));
       onFieldCards.push(cardsShuffled[i]);
       cardsShuffled = cardsShuffled.slice(1);
+      numOfFieldCards++;
     }
     remainingCards.innerHTML = cardsShuffled.length;
     const mainCardsImg = document.querySelectorAll(
