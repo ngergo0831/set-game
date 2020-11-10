@@ -120,6 +120,22 @@ const render = () => {
     return false;
   };
 
+  const threeNewCard = () => {
+    for (let i = 0; i < 3; i++) {
+      createCards(cardsShuffled[i], i + numOfFieldCards);
+      onFieldCards.push(cardsShuffled[i]);
+      cardsShuffled = cardsShuffled.slice(1);
+    }
+    numOfFieldCards += 3;
+    remainingCards.innerHTML = cardsShuffled.length;
+    const mainCardsImg = document.querySelectorAll(
+      "#main__cards-container img"
+    );
+    mainCardsImg.forEach((x) => (x.style.width = "80%"));
+    threeCardButton.style.cursor = "no-drop";
+    threeCardButton.disabled = true;
+  };
+
   let cardsShuffled;
   let selectedCards = [];
   let onFieldCards;
@@ -162,22 +178,86 @@ const render = () => {
           if (checkSet(selectedCards)) {
             console.log("SET");
             player.innerHTML = Number(player.innerHTML) + 1;
-            for (let i = 0; i < 3; i++) {
-              onFieldCards.forEach((x, j) => {
-                if (x.src === selectedCards[i]) {
-                  if (cardsShuffled.length == 0) {
-                    onFieldCards[j].src = "no-more-card.png";
-                    onFieldCards[j].color = "off";
-                    onFieldCards[j].content = "off";
-                    onFieldCards[j].num = "off";
-                    onFieldCards[j].shape = "off";
-                  } else {
-                    onFieldCards[j] = cardsShuffled[0];
-                    cardsShuffled = cardsShuffled.slice(1);
+
+            let indexes = [];
+
+            if (numOfFieldCards != 12) {
+              for (let i = 12; i < 15; i++) {
+                for (let j = 0; j < 3; j++) {
+                  if (onFieldCards[i].src === selectedCards[j]) {
+                    indexes.push(i);
                   }
                 }
-              });
+              }
             }
+
+            if (indexes.length == 0 && numOfFieldCards != 12) {
+              onFieldCards = onFieldCards.slice(0, 12);
+              document.querySelector("#card12").outerHTML = "";
+              document.querySelector("#card13").outerHTML = "";
+              document.querySelector("#card14").outerHTML = "";
+              const mainCardsImg = document.querySelectorAll(
+                "#main__cards-container img"
+              );
+              mainCardsImg.forEach((x) => (x.style.width = "100%"));
+            } else {
+              for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < onFieldCards.length; j++) {
+                  if (onFieldCards[j].src === selectedCards[i]) {
+                    if (cardsShuffled.length == 0) {
+                      onFieldCards[j].src = "no-more-card.png";
+                      onFieldCards[j].color = "off";
+                      onFieldCards[j].content = "off";
+                      onFieldCards[j].num = "off";
+                      onFieldCards[j].shape = "off";
+                    } else {
+                      if (numOfFieldCards == 12) {
+                        onFieldCards[j] = cardsShuffled[0];
+                        cardsShuffled = cardsShuffled.slice(1);
+                      } else {
+                        let lastIndex;
+                        if (indexes.length != 0) {
+                          lastIndex = indexes[indexes.length - 1];
+                          //console.log(onFieldCards[j]);
+                          //console.log(onFieldCards[lastIndex]);
+                          //console.log(j);
+                          //console.log(lastIndex);
+                          onFieldCards[j] = onFieldCards[lastIndex];
+                          onFieldCards = onFieldCards.slice(
+                            0,
+                            onFieldCards.length - 1
+                          );
+                          indexes = indexes.slice(0, indexes.length - 1);
+                          numOfFieldCards--;
+                          document.querySelector(
+                            "#card" + lastIndex
+                          ).outerHTML = "";
+                        } else {
+                          lastIndex = onFieldCards.length - 1;
+                          onFieldCards = onFieldCards.slice(0, lastIndex);
+                          numOfFieldCards--;
+                          let remove = document.querySelector("#card" + 12);
+                          if (remove != null) remove.outerHTML = "";
+                          remove = document.querySelector("#card" + 13);
+                          if (remove != null) remove.outerHTML = "";
+                          remove = document.querySelector("#card" + 14);
+                          if (remove != null) remove.outerHTML = "";
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              threeCardButton.disabled = false;
+              threeCardButton.style.cursor = "pointer";
+              numOfFieldCards = 12;
+            }
+            if (
+              !helpSet() &&
+              cardsShuffled.length != 0 &&
+              radioThreeCardYes.checked
+            )
+              threeNewCard();
             for (let i = 0; i < 3 && cardsShuffled.length != 0; i++) {
               document
                 .querySelectorAll("#main__cards-container img")
@@ -186,6 +266,11 @@ const render = () => {
                     x.src = "res/cards/" + onFieldCards[j].src;
                   }
                 });
+            }
+
+            if (!helpSet() && cardsShuffled.length == 0) {
+              //GAME OVER
+              console.log("Game over");
             }
             for (let i = 0; i < 3; i++) {
               if (cardsShuffled.length == 0) {
@@ -363,7 +448,7 @@ const render = () => {
               );
               third.style.boxShadow =
                 "-3px -3px 30px 3px red, 3px 3px 30px 3px red";
-              await sleep(1200);
+              await sleep(800);
               first.style.boxShadow = "";
               second.style.boxShadow = "";
               third.style.boxShadow = "";
@@ -373,19 +458,6 @@ const render = () => {
   };
 
   showSetButton.addEventListener("click", showSet);
-  threeCardButton.addEventListener("click", () => {
-    for (let i = 0; i < 3; i++) {
-      createCards(cardsShuffled[i], i + (numOfFieldCards + 1));
-      onFieldCards.push(cardsShuffled[i]);
-      cardsShuffled = cardsShuffled.slice(1);
-      numOfFieldCards++;
-    }
-    remainingCards.innerHTML = cardsShuffled.length;
-    const mainCardsImg = document.querySelectorAll(
-      "#main__cards-container img"
-    );
-    mainCardsImg.forEach((x) => (x.style.width = "80%"));
-    threeCardButton.style.cursor = "no-drop";
-    threeCardButton.disabled = true;
-  });
+
+  threeCardButton.addEventListener("click", threeNewCard);
 };
