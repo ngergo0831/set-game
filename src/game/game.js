@@ -2,21 +2,18 @@ const players = document.querySelector("#main__left-sidebar-players");
 const showSetButton = document.querySelector(
   "#main__right-sidebar-showSetButton"
 );
-
 const threeCardButton = document.querySelector(
   "#main__right-sidebar-threeCardButton"
 );
-
 const isSetButton = document.querySelector("#main__right-sidebar-isSetButton");
-
 const remainingCards = document.querySelector("#main__right-sidebar-remaining");
-
 const numberOfPlayers = document.querySelector("#menu__player-number-text");
-
-let gameFinished = false;
-
 const timer = document.querySelector("#main__left-sidebar-timer");
 const timerText = document.querySelector("#main__left-sidebar-remainingTime");
+
+let gameFinished = false;
+let playerDisabled = false;
+let enabledPlayers = Number(numberOfPlayers.innerHTML);
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -88,7 +85,8 @@ const render = () => {
   let selectedCards = [];
   let onFieldCards = cardsShuffled.slice(0, 12);
   cardsShuffled = cardsShuffled.slice(12);
-
+  console.log("Pakliban lévő kártyák:");
+  console.log(cardsShuffled);
   const createCards = (card, i) => {
     const img = document.createElement("IMG");
     img.setAttribute("src", "res/cards/" + card.src);
@@ -154,9 +152,43 @@ const render = () => {
                   });
               }
             }
-            //tiltott játékosok . enabled
+            const playerButtons = document.querySelectorAll(
+              ".main__left-sidebar-player"
+            );
+            playerButtons.forEach((x) => {
+              x.style.pointerEvents = "all";
+              x.style.color = "black";
+              x.style.cursor = "pointer";
+            });
+            playerDisabled = false;
             remainingCards.innerHTML = cardsShuffled.length;
           } else {
+            const playerNum =
+              currentPlayer.charAt(currentPlayer.length - 1) == "0"
+                ? "10"
+                : currentPlayer.charAt(currentPlayer.length - 1);
+            const currPlayerButton = document.querySelector(
+              "#player" + playerNum
+            );
+            if (Number(numberOfPlayers.innerHTML) > 1) {
+              currPlayerButton.style.pointerEvents = "none";
+              currPlayerButton.style.color = "gray";
+              currPlayerButton.style.cursor = "no-drop";
+              playerDisabled = true;
+            }
+            if (Number(numberOfPlayers.innerHTML) > 1) enabledPlayers--;
+            if (enabledPlayers == 0) {
+              const playerButtons = document.querySelectorAll(
+                ".main__left-sidebar-player"
+              );
+              playerButtons.forEach((x) => {
+                x.style.pointerEvents = "all";
+                x.style.color = "black";
+                x.style.cursor = "pointer";
+              });
+              enabledPlayers = Number(numberOfPlayers.innerHTML);
+              playerDisabled = false;
+            }
             if (Number(player.innerHTML) > 0)
               player.innerHTML = Number(player.innerHTML) - 1;
           }
@@ -170,6 +202,7 @@ const render = () => {
       }
     });
     cardsContainer.appendChild(img);
+    enabledPlayers = Number(numberOfPlayers.innerHTML);
   };
 
   onFieldCards.forEach((card, i) => createCards(card, i));
@@ -210,9 +243,14 @@ const render = () => {
     showSetButton.disabled = true;
     isSetButton.disabled = true;
     threeCardButton.disabled = true;
+    playerDisabled = false;
     for (let i = 9; i >= 0 && cardsActive; i--) {
       timer.innerHTML = i;
       players.style.pointerEvents = "none";
+      if (i == 0 && Number(numberOfPlayers.innerHTML) > 1) {
+        playerDisabled = true;
+        enabledPlayers--;
+      }
       await sleep(1000);
     }
     players.style.pointerEvents = "auto";
@@ -227,7 +265,29 @@ const render = () => {
     selectedCards = [];
     clickedCardCounter = 0;
     player = document.querySelector("#" + currentPlayer);
-    cplayer.style.color = "black";
+    if (
+      playerDisabled &&
+      enabledPlayers != 0 &&
+      Number(numberOfPlayers.innerHTML) > 1
+    ) {
+      cplayer.style.color = "grey";
+      cplayer.style.pointerEvents = "none";
+      cplayer.style.cursor = "no-drop";
+    } else {
+      if (Number(numberOfPlayers.innerHTML) > 1) cplayer.style.color = "black";
+    }
+    if (enabledPlayers == 0) {
+      const playerButtons = document.querySelectorAll(
+        ".main__left-sidebar-player"
+      );
+      playerButtons.forEach((x) => {
+        x.style.pointerEvents = "all";
+        x.style.color = "black";
+        x.style.cursor = "pointer";
+      });
+      enabledPlayers = Number(numberOfPlayers.innerHTML);
+      playerDisabled = false;
+    }
     if (Number(player.innerHTML) > 0 && Number(player.innerHTML) == currPoints)
       player.innerHTML = Number(player.innerHTML - 1);
   };
