@@ -16,6 +16,7 @@ let playerDisabled = false;
 let enabledPlayers = Number(numberOfPlayers.innerHTML);
 let numOfFieldCards = 12;
 let onFieldCards;
+let plusThreeNoShuffled = false;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -119,10 +120,10 @@ const render = () => {
   const threeNewCard = () => {
     for (let i = 0; i < 3; i++) {
       createCards(cardsShuffled[i], i + numOfFieldCards);
-      onFieldCards.push(cardsShuffled[i]); //this is fucked
+      onFieldCards.push(cardsShuffled[i]);
     }
-    cardsShuffled = cardsShuffled.slice(3, cardsShuffled.length - 3);
-
+    cardsShuffled = cardsShuffled.slice(3, cardsShuffled.length);
+    if (cardsShuffled.length == 0) plusThreeNoShuffled = true;
     numOfFieldCards += 3;
     remainingCards.innerHTML = cardsShuffled.length;
     const mainCardsImg = document.querySelectorAll(
@@ -213,7 +214,6 @@ const render = () => {
                 for (let j = 0; j < onFieldCards.length; j++) {
                   if (onFieldCards[j].src === selectedCards[inn]) {
                     if (cardsShuffled.length == 0) {
-                      //15 lapnál nem jó
                       if (numOfFieldCards == 12 || indexes.length == 3) {
                         if (indexes.length == 3) {
                           document.querySelector("#card" + j).outerHTML = "";
@@ -255,7 +255,7 @@ const render = () => {
                             if (remove != null) remove.outerHTML = "";
                           }
                         } else {
-                          //Fixen rossz
+                          //indexes.length == 0
                           let lastIndex = onFieldCards.length - 1;
                           onFieldCards[j] = onFieldCards[lastIndex];
                           onFieldCards = onFieldCards.slice(0, lastIndex);
@@ -267,6 +267,8 @@ const render = () => {
                             mainCardsImg.forEach(
                               (x) => (x.style.width = "100%")
                             );
+                            threeCardButton.disabled = true;
+                            threeCardButton.style.cursor = "no-drop";
                             let remove = document.querySelector("#card" + 12);
                             if (remove != null) remove.outerHTML = "";
                             remove = document.querySelector("#card" + 13);
@@ -278,6 +280,7 @@ const render = () => {
                       }
                     } else {
                       if (numOfFieldCards == 12) {
+                        console.log("asd");
                         onFieldCards[j] = cardsShuffled[0];
                         cardsShuffled = cardsShuffled.slice(1);
                       } else {
@@ -315,6 +318,7 @@ const render = () => {
                         }
                       }
                     }
+                    plusThreeNoShuffled = true;
                   }
                 }
               }
@@ -328,7 +332,7 @@ const render = () => {
               radioThreeCardYes.checked
             )
               threeNewCard();
-            for (let inde = 0; inde < 3 && cardsShuffled.length != 0; inde++) {
+            for (let inde = 0; inde < 3; inde++) {
               document
                 .querySelectorAll("#main__cards-container img")
                 .forEach((x, j) => {
@@ -342,24 +346,24 @@ const render = () => {
               gameFinished = true;
               console.log("Game over");
             }
-            for (let ii = 0; ii < 3; ii++) {
-              if (cardsShuffled.length == 0) {
-                document
-                  .querySelectorAll("#main__cards-container img")
-                  .forEach((x, j) => {
-                    if (x.src.slice(-8) === selectedCards[ii]) {
-                      x.src = "res/cards/no-more-card.png";
-                      x.style.cursor = "no-drop";
-                      x.style.pointerEvents = "none";
-                      onFieldCards[j].src = "no-more-card.png";
-                      onFieldCards[j].color = "off";
-                      onFieldCards[j].content = "off";
-                      onFieldCards[j].num = "off";
-                      onFieldCards[j].shape = "off";
-                      threeCardButton.disabled = true;
-                      threeCardButton.style.cursor = "no-drop";
-                    }
-                  });
+            if (!plusThreeNoShuffled) {
+              for (let ii = 0; ii < 3; ii++) {
+                if (cardsShuffled.length == 0) {
+                  document
+                    .querySelectorAll("#main__cards-container img")
+                    .forEach((x, j) => {
+                      if (x.src.slice(-8) === selectedCards[ii]) {
+                        x.src = "res/cards/no-more-card.png";
+                        x.style.cursor = "no-drop";
+                        x.style.pointerEvents = "none";
+                        onFieldCards[j].src = "no-more-card.png";
+                        onFieldCards[j].color = "off";
+                        onFieldCards[j].content = "off";
+                        onFieldCards[j].num = "off";
+                        onFieldCards[j].shape = "off";
+                      }
+                    });
+                }
               }
             }
             const playerButtons = document.querySelectorAll(
@@ -504,6 +508,7 @@ const render = () => {
                 onFieldCards[k].src,
               ])
             ) {
+              console.log(onFieldCards[i].src);
               const first = document.querySelector(
                 `img[src='res/cards/${onFieldCards[i].src}']`
               );
