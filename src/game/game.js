@@ -10,6 +10,7 @@ const remainingCards = document.querySelector("#main__right-sidebar-remaining");
 const numberOfPlayers = document.querySelector("#menu__player-number-text");
 const timer = document.querySelector("#main__left-sidebar-timer");
 const timerText = document.querySelector("#main__left-sidebar-remainingTime");
+const gameOverScreen = document.querySelector("#game-over");
 
 let gameFinished = false;
 let playerDisabled = false;
@@ -206,8 +207,9 @@ const render = () => {
                 "#main__cards-container img"
               );
               mainCardsImg.forEach((x) => (x.style.width = "100%"));
-              threeCardButton.disabled = false;
-              threeCardButton.cursor = "pointer";
+              if (cardsShuffled.length !== 0) threeCardButton.disabled = false;
+              if (cardsShuffled.length !== 0)
+                threeCardButton.cursor = "pointer";
               numOfFieldCards = 12;
             } else {
               for (let inn = 0; inn < 3; inn++) {
@@ -322,8 +324,9 @@ const render = () => {
                   }
                 }
               }
-              threeCardButton.disabled = false;
-              threeCardButton.style.cursor = "pointer";
+              if (cardsShuffled.length !== 0) threeCardButton.disabled = false;
+              if (cardsShuffled.length !== 0)
+                threeCardButton.style.cursor = "pointer";
               numOfFieldCards = 12;
             }
             if (
@@ -345,6 +348,14 @@ const render = () => {
             if (!helpSet() && cardsShuffled.length == 0) {
               gameFinished = true;
               console.log("Game over");
+              threeCardButton.disabled = true;
+              threeCardButton.style.cursor = "no-drop";
+              showSetButton.disabled = true;
+              showSetButton.style.cursor = "no-drop";
+              isSetButton.disabled = true;
+              isSetButton.style.cursor = "no-drop";
+              mainScreen.style.display = "none";
+              gameOverScreen.style.display = "flex";
             }
             if (!plusThreeNoShuffled) {
               for (let ii = 0; ii < 3; ii++) {
