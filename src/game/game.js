@@ -255,11 +255,12 @@ const render = () => {
                             if (remove != null) remove.outerHTML = "";
                           }
                         } else {
+                          //Fixen rossz
                           let lastIndex = onFieldCards.length - 1;
                           onFieldCards[j] = onFieldCards[lastIndex];
                           onFieldCards = onFieldCards.slice(0, lastIndex);
                           numOfFieldCards--;
-                          if (i == 2) {
+                          if (inn == 2) {
                             const mainCardsImg = document.querySelectorAll(
                               "#main__cards-container img"
                             );
@@ -356,6 +357,7 @@ const render = () => {
                       onFieldCards[j].num = "off";
                       onFieldCards[j].shape = "off";
                       threeCardButton.disabled = true;
+                      threeCardButton.style.cursor = "no-drop";
                     }
                   });
               }
