@@ -282,7 +282,6 @@ const render = () => {
                       }
                     } else {
                       if (numOfFieldCards == 12) {
-                        console.log("asd");
                         onFieldCards[j] = cardsShuffled[0];
                         cardsShuffled = cardsShuffled.slice(1);
                       } else {
@@ -356,6 +355,7 @@ const render = () => {
               isSetButton.style.cursor = "no-drop";
               mainScreen.style.display = "none";
               gameOverScreen.style.display = "flex";
+              afterGame();
             }
             if (!plusThreeNoShuffled) {
               for (let ii = 0; ii < 3; ii++) {
@@ -543,12 +543,12 @@ const render = () => {
               tempPlayers.forEach((x) => (x.style.pointerEvents = "auto"));
             }
   };
-  /*const tester = () => {
-    console.log(cardsShuffled);
-  };*/
-  showSetButton.addEventListener("click", showSet);
-  //showSetButton.addEventListener("click", tester);
 
+  const afterGame = () => {
+    //1 játékos mód verseny console.log(timer.innerHTML);
+  };
+
+  showSetButton.addEventListener("click", showSet);
   threeCardButton.addEventListener("click", threeNewCard);
 };
 
