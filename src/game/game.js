@@ -28,10 +28,6 @@ const timerOnePlayer = async () => {
   }
 };
 
-btnStart.addEventListener("click", () => {
-  render();
-});
-
 const render = () => {
   showSetButton.disabled = radioShowSetNo.checked;
   threeCardButton.disabled = radioThreeCardYes.checked;
@@ -126,6 +122,8 @@ const render = () => {
       onFieldCards.push(cardsShuffled[i]);
       cardsShuffled = cardsShuffled.slice(1);
     }
+
+    if (cardsShuffled.length == 0) threeCardButton.disabled = true;
     numOfFieldCards += 3;
     remainingCards.innerHTML = cardsShuffled.length;
     const mainCardsImg = document.querySelectorAll(
@@ -151,12 +149,16 @@ const render = () => {
           .map((a) => ({ sort: Math.random(), value: a }))
           .sort((a, b) => a.sort - b.sort)
           .map((a) => a.value);
+    onFieldCards = [];
     onFieldCards = cardsShuffled.slice(0, 12);
+    console.log("-------");
+    console.log(onFieldCards);
+    console.log("-------");
     isCardsGood = helpSet();
   } while (!isCardsGood);
   cardsShuffled = cardsShuffled.slice(12);
-  console.log("Pakliban lévő kártyák:");
-  console.log(cardsShuffled);
+  /*console.log("Pakliban lévő kártyák:");
+  console.log(cardsShuffled);*/
   const createCards = (card, i) => {
     const img = document.createElement("IMG");
     img.setAttribute("src", "res/cards/" + card.src);
@@ -192,7 +194,15 @@ const render = () => {
             }
 
             if (indexes.length == 0 && numOfFieldCards != 12) {
-              onFieldCards = onFieldCards.slice(0, 12);
+              for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < onFieldCards.length; j++) {
+                  if (onFieldCards[j].src === selectedCards[i]) {
+                    let lastIndex = onFieldCards.length - 1;
+                    onFieldCards[j] = onFieldCards[lastIndex];
+                    onFieldCards = onFieldCards.slice(0, lastIndex);
+                  }
+                }
+              }
               document.querySelector("#card12").outerHTML = "";
               document.querySelector("#card13").outerHTML = "";
               document.querySelector("#card14").outerHTML = "";
@@ -200,16 +210,76 @@ const render = () => {
                 "#main__cards-container img"
               );
               mainCardsImg.forEach((x) => (x.style.width = "100%"));
+              threeCardButton.disabled = false;
+              threeCardButton.cursor = "pointer";
+              numOfFieldCards = 12;
             } else {
               for (let i = 0; i < 3; i++) {
                 for (let j = 0; j < onFieldCards.length; j++) {
                   if (onFieldCards[j].src === selectedCards[i]) {
                     if (cardsShuffled.length == 0) {
-                      onFieldCards[j].src = "no-more-card.png";
-                      onFieldCards[j].color = "off";
-                      onFieldCards[j].content = "off";
-                      onFieldCards[j].num = "off";
-                      onFieldCards[j].shape = "off";
+                      //15 lapnál nem jó
+                      if (numOfFieldCards == 12 || indexes.length == 3) {
+                        if (indexes.length == 3) {
+                          document.querySelector("#card" + j).outerHTML = "";
+                          onFieldCards = onFieldCards.filter(
+                            (x, index) => index != j
+                          );
+                        } else {
+                          onFieldCards[j].src = "no-more-card.png";
+                          onFieldCards[j].color = "off";
+                          onFieldCards[j].content = "off";
+                          onFieldCards[j].num = "off";
+                          onFieldCards[j].shape = "off";
+                        }
+                      } else {
+                        if (indexes.length != 0) {
+                          let lastIndex = indexes[indexes.length - 1];
+                          onFieldCards[j] = onFieldCards[lastIndex];
+                          onFieldCards = onFieldCards.filter(
+                            (x, index) => index != lastIndex
+                          );
+                          indexes = indexes.slice(0, indexes.length - 1);
+                          numOfFieldCards--;
+                          document.querySelector(
+                            "#card" + lastIndex
+                          ).outerHTML = "";
+
+                          if (i == 2) {
+                            const mainCardsImg = document.querySelectorAll(
+                              "#main__cards-container img"
+                            );
+                            mainCardsImg.forEach(
+                              (x) => (x.style.width = "100%")
+                            );
+                            let remove = document.querySelector("#card" + 12);
+                            if (remove != null) remove.outerHTML = "";
+                            remove = document.querySelector("#card" + 13);
+                            if (remove != null) remove.outerHTML = "";
+                            remove = document.querySelector("#card" + 14);
+                            if (remove != null) remove.outerHTML = "";
+                          }
+                        } else {
+                          let lastIndex = onFieldCards.length - 1;
+                          onFieldCards[j] = onFieldCards[lastIndex];
+                          onFieldCards = onFieldCards.slice(0, lastIndex);
+                          numOfFieldCards--;
+                          if (i == 2) {
+                            const mainCardsImg = document.querySelectorAll(
+                              "#main__cards-container img"
+                            );
+                            mainCardsImg.forEach(
+                              (x) => (x.style.width = "100%")
+                            );
+                            let remove = document.querySelector("#card" + 12);
+                            if (remove != null) remove.outerHTML = "";
+                            remove = document.querySelector("#card" + 13);
+                            if (remove != null) remove.outerHTML = "";
+                            remove = document.querySelector("#card" + 14);
+                            if (remove != null) remove.outerHTML = "";
+                          }
+                        }
+                      }
                     } else {
                       if (numOfFieldCards == 12) {
                         onFieldCards[j] = cardsShuffled[0];
@@ -218,14 +288,9 @@ const render = () => {
                         let lastIndex;
                         if (indexes.length != 0) {
                           lastIndex = indexes[indexes.length - 1];
-                          //console.log(onFieldCards[j]);
-                          //console.log(onFieldCards[lastIndex]);
-                          //console.log(j);
-                          //console.log(lastIndex);
                           onFieldCards[j] = onFieldCards[lastIndex];
-                          onFieldCards = onFieldCards.slice(
-                            0,
-                            onFieldCards.length - 1
+                          onFieldCards = onFieldCards.filter(
+                            (x, index) => index != lastIndex
                           );
                           indexes = indexes.slice(0, indexes.length - 1);
                           numOfFieldCards--;
@@ -234,14 +299,23 @@ const render = () => {
                           ).outerHTML = "";
                         } else {
                           lastIndex = onFieldCards.length - 1;
+                          onFieldCards[j] = onFieldCards[lastIndex];
                           onFieldCards = onFieldCards.slice(0, lastIndex);
                           numOfFieldCards--;
-                          let remove = document.querySelector("#card" + 12);
-                          if (remove != null) remove.outerHTML = "";
-                          remove = document.querySelector("#card" + 13);
-                          if (remove != null) remove.outerHTML = "";
-                          remove = document.querySelector("#card" + 14);
-                          if (remove != null) remove.outerHTML = "";
+                          if (i == 2) {
+                            const mainCardsImg = document.querySelectorAll(
+                              "#main__cards-container img"
+                            );
+                            mainCardsImg.forEach(
+                              (x) => (x.style.width = "100%")
+                            );
+                            let remove = document.querySelector("#card" + 12);
+                            if (remove != null) remove.outerHTML = "";
+                            remove = document.querySelector("#card" + 13);
+                            if (remove != null) remove.outerHTML = "";
+                            remove = document.querySelector("#card" + 14);
+                            if (remove != null) remove.outerHTML = "";
+                          }
                         }
                       }
                     }
@@ -456,8 +530,13 @@ const render = () => {
               tempPlayers.forEach((x) => (x.style.pointerEvents = "auto"));
             }
   };
-
-  showSetButton.addEventListener("click", showSet);
+  const tester = () => {
+    console.log(cardsShuffled);
+  };
+  //showSetButton.addEventListener("click", showSet);
+  showSetButton.addEventListener("click", tester);
 
   threeCardButton.addEventListener("click", threeNewCard);
 };
+
+btnStart.addEventListener("click", render);
