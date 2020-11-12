@@ -1,4 +1,4 @@
-const players = document.querySelector("#main__left-sidebar-players");
+let players = document.querySelector("#main__left-sidebar-players");
 const showSetButton = document.querySelector(
   "#main__right-sidebar-showSetButton"
 );
@@ -7,7 +7,7 @@ const threeCardButton = document.querySelector(
 );
 const isSetButton = document.querySelector("#main__right-sidebar-isSetButton");
 const remainingCards = document.querySelector("#main__right-sidebar-remaining");
-const numberOfPlayers = document.querySelector("#menu__player-number-text");
+let numberOfPlayers = document.querySelector("#menu__player-number-text");
 const timer = document.querySelector("#main__left-sidebar-timer");
 const timerText = document.querySelector("#main__left-sidebar-remainingTime");
 const gameOverScreen = document.querySelector("#game-over");
@@ -19,18 +19,36 @@ let numOfFieldCards = 12;
 let onFieldCards;
 let plusThreeNoShuffled = false;
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const timerOnePlayer = async () => {
-  timer.innerHTML = 0;
-  timerText.innerHTML = "Eltelt idő";
-  while (!gameFinished) {
-    await sleep(1000);
-    timer.innerHTML = Number(timer.innerHTML) + 1;
+const resetEverything = () => {
+  numberOfPlayers = document.querySelector("#menu__player-number-text");
+  players = document.querySelector("#main__left-sidebar-players");
+  const cardsContainer = document.querySelector("#main__cards-container");
+  while (cardsContainer.firstChild) {
+    cardsContainer.removeChild(cardsContainer.lastChild);
   }
+  while (players.firstChild) {
+    players.removeChild(players.lastChild);
+  }
+  gameFinished = false;
+  playerDisabled = false;
+  enabledPlayers = Number(numberOfPlayers.innerHTML);
+  numOfFieldCards = 12;
+  onFieldCards = [];
+  plusThreeNoShuffled = false;
+  timer.innerHTML = 10;
 };
 
 const render = () => {
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const timerOnePlayer = async () => {
+    timer.innerHTML = 0;
+    timerText.innerHTML = "Eltelt idő";
+    while (!gameFinished) {
+      await sleep(1000);
+      timer.innerHTML = Number(timer.innerHTML) + 1;
+    }
+  };
+
   showSetButton.disabled = radioShowSetNo.checked;
   threeCardButton.disabled = radioThreeCardYes.checked;
   isSetButton.disabled = radioIsSetNo.checked;
@@ -550,6 +568,7 @@ const render = () => {
     const playerPoints = document.querySelector("#game-over__onePlayer-points");
     const thisPlayer = document.querySelector("#player-points1");
     playerPoints.innerHTML = thisPlayer.innerHTML;
+    resetEverything();
   };
 
   showSetButton.addEventListener("click", showSet);
