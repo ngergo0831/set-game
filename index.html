@@ -370,7 +370,19 @@
         </div>
       </div>
     </div>
-    <div id="game-over"></div>
+    <div id="game-over" style="display: none">
+      <div id="game-over__onePlayer">
+        <div class="game-over-title">A játék véget ért</div>
+        <div class="game-over__onePlayer-congrats">Gratulálok!</div>
+        <div id="game-over__onePlayer-time">111 mp alatt végeztél</div>
+        <div class="game-over__onePlayer-points-text">
+          Pontszám:
+          <div id="game-over__onePlayer-points">10</div>
+        </div>
+        <button id="game-over-buttonMenu">Vissza a főmenübe</button>
+      </div>
+      <div id="game-over__morePlayer"></div>
+    </div>
     <script type="text/javascript" src="data/cards.js"></script>
     <script type="text/javascript" src="src/index.js"></script>
     <script src="src/menu/menu.js"></script>

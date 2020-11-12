@@ -2,6 +2,7 @@
 @import url("game/left-sidebar/left-sidebar.css");
 @import url("game/right-sidebar/right-sidebar.css");
 @import url("menu/menu.css");
+@import url("game-over/game-over.css");
 
 * {
   box-sizing: border-box;

@@ -54,6 +54,13 @@ btnStart.addEventListener("click", () => {
   mainScreen.style.display = "grid";
 });
 
+const overScreen = document.querySelector("#game-over");
+const btnBackToMenu = document.querySelector("#game-over-buttonMenu");
+btnBackToMenu.addEventListener("click", () => {
+  overScreen.style.display = "none";
+  menu.style.display = "grid";
+});
+
 const btnBack = document.querySelector("#menu-settings-btnBack");
 btnBack.addEventListener("click", () => {
   settings.style.display = "none";
@@ -93,7 +100,7 @@ playerNameText.forEach((x, i) => {
   input.setAttribute("maxlength", "15");
   input.value = playerNames[i];
   input.style = "text-align:center;";
-  input.addEventListener("input", (x) => {
+  input.addEventListener("input", () => {
     if (input.value.length > 0) {
       btnPlayerBack.disabled = false;
       btnPlayerBack.style.borderColor = "black";

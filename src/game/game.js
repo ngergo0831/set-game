@@ -545,7 +545,11 @@ const render = () => {
   };
 
   const afterGame = () => {
-    //1 játékos mód verseny console.log(timer.innerHTML);
+    const playerTime = document.querySelector("#game-over__onePlayer-time");
+    playerTime.innerHTML = timer.innerHTML + " mp alatt végeztél";
+    const playerPoints = document.querySelector("#game-over__onePlayer-points");
+    const thisPlayer = document.querySelector("#player-points1");
+    playerPoints.innerHTML = thisPlayer.innerHTML;
   };
 
   showSetButton.addEventListener("click", showSet);
