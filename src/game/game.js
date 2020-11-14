@@ -7,10 +7,15 @@ const threeCardButton = document.querySelector(
 );
 const isSetButton = document.querySelector("#main__right-sidebar-isSetButton");
 const remainingCards = document.querySelector("#main__right-sidebar-remaining");
-let numberOfPlayers = document.querySelector("#menu__player-number-text");
 const timer = document.querySelector("#main__left-sidebar-timer");
 const timerText = document.querySelector("#main__left-sidebar-remainingTime");
 const gameOverScreen = document.querySelector("#game-over");
+let cardsContainer = document.querySelector("#main__cards-container");
+let numberOfPlayers = document.querySelector("#menu__player-number-text");
+let diffRadio = document.querySelector("#menu__difficulty-radioBeginner");
+let playerTime = document.querySelector("#game-over__onePlayer-time");
+let playerPoints = document.querySelector("#game-over__onePlayer-points");
+let thisPlayer = document.querySelector("#player-points1");
 
 let gameFinished = false;
 let playerDisabled = false;
@@ -22,6 +27,15 @@ let onePlayerInterval;
 let cardsShuffled = [];
 let selectedCards = [];
 let isCardsGood;
+let clickedCardCounter = 0;
+let cardsActive = false;
+let currentPlayer = "";
+let showHelpSetCounter = 0;
+let showHelpSetInterval;
+let multiPlayerCounter = 9;
+let multiPlayerInterval;
+let showSetCounter = 0;
+let showSetInterval;
 
 const resetEverything = () => {
   numberOfPlayers = document.querySelector("#menu__player-number-text");
@@ -43,6 +57,19 @@ const resetEverything = () => {
 };
 
 const render = () => {
+  showSetButton.disabled = radioShowSetNo.checked;
+  threeCardButton.disabled = radioThreeCardYes.checked;
+  isSetButton.disabled = radioIsSetNo.checked;
+  clickedCardCounter = 0;
+  cardsActive = false;
+  currentPlayer = "";
+  showHelpSetCounter = 0;
+  multiPlayerCounter = 9;
+  showSetCounter = 0;
+
+  cardsContainer = document.querySelector("#main__cards-container");
+  diffRadio = document.querySelector("#menu__difficulty-radioBeginner");
+
   const timerOnePlayer = () => {
     timer.innerHTML = 0;
     timerText.innerHTML = "Eltelt idő";
@@ -52,14 +79,8 @@ const render = () => {
     }, 1000);
   };
 
-  showSetButton.disabled = radioShowSetNo.checked;
-  threeCardButton.disabled = radioThreeCardYes.checked;
-  isSetButton.disabled = radioIsSetNo.checked;
-  let clickedCardCounter = 0;
-  let cardsActive = false;
-  let currentPlayer = "";
   if (Number(numberOfPlayers.innerHTML) == 1) timerOnePlayer();
-  const cardsContainer = document.querySelector("#main__cards-container");
+
   for (let i = 0; i < Number(playerText.innerHTML); i++) {
     const player = document.createElement("BUTTON");
     player.setAttribute("class", "main__left-sidebar-player");
@@ -89,8 +110,6 @@ const render = () => {
     playerFlex.appendChild(score);
     players.appendChild(playerFlex);
   }
-
-  const diffRadio = document.querySelector("#menu__difficulty-radioBeginner");
 
   const checkSet = (selectedCardss) => {
     const cardsDetails = selectedCardss.map(
@@ -453,9 +472,6 @@ const render = () => {
 
   remainingCards.innerHTML = cardsShuffled.length;
 
-  let showHelpSetCounter = 0;
-  let showHelpSetInterval;
-
   const showHelpSet = () => {
     isSetButton.innerHTML = helpSet() ? "Van" : "Nincs";
     showHelpSetInterval = setInterval(() => {
@@ -467,9 +483,6 @@ const render = () => {
       }
     }, 1000);
   };
-
-  let multiPlayerCounter = 9,
-    multiPlayerInterval;
 
   const startTimer = (cplayer) => {
     let player = document.querySelector("#" + currentPlayer);
@@ -539,11 +552,6 @@ const render = () => {
     }, 1000);
   };
 
-  isSetButton.addEventListener("click", showHelpSet);
-
-  let showSetCounter = 0,
-    showSetInterval;
-
   const showSet = () => {
     const tempPlayers = document.querySelectorAll(
       "#main__left-sidebar-players button"
@@ -598,10 +606,10 @@ const render = () => {
   };
 
   const afterGame = () => {
-    const playerTime = document.querySelector("#game-over__onePlayer-time");
+    playerTime = document.querySelector("#game-over__onePlayer-time");
     playerTime.innerHTML = timer.innerHTML + " mp alatt végeztél";
-    const playerPoints = document.querySelector("#game-over__onePlayer-points");
-    const thisPlayer = document.querySelector("#player-points1");
+    playerPoints = document.querySelector("#game-over__onePlayer-points");
+    thisPlayer = document.querySelector("#player-points1");
     playerPoints.innerHTML = thisPlayer.innerHTML;
     clearInterval(showSetInterval);
     clearInterval(multiPlayerInterval);
@@ -610,6 +618,7 @@ const render = () => {
     resetEverything();
   };
 
+  isSetButton.addEventListener("click", showHelpSet);
   showSetButton.addEventListener("click", showSet);
   threeCardButton.addEventListener("click", threeNewCard);
 };
