@@ -18,6 +18,7 @@ let enabledPlayers = Number(numberOfPlayers.innerHTML);
 let numOfFieldCards = 12;
 let onFieldCards;
 let plusThreeNoShuffled = false;
+let onePlayerInterval;
 
 const resetEverything = () => {
   numberOfPlayers = document.querySelector("#menu__player-number-text");
@@ -38,15 +39,15 @@ const resetEverything = () => {
   timer.innerHTML = 10;
 };
 
+
 const render = () => {
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  const timerOnePlayer = async () => {
+  const timerOnePlayer = () => {
     timer.innerHTML = 0;
     timerText.innerHTML = "Eltelt idő";
-    while (!gameFinished) {
-      await sleep(1000);
+    onePlayerInterval = setInterval(() => {
       timer.innerHTML = Number(timer.innerHTML) + 1;
-    }
+      if (gameFinished) clearInterval(onePlayerInterval);
+    }, 1000);
   };
 
   showSetButton.disabled = radioShowSetNo.checked;
@@ -453,70 +454,98 @@ const render = () => {
 
   remainingCards.innerHTML = cardsShuffled.length;
 
-  const showHelpSet = async () => {
+  let showHelpSetCounter = 0;
+  let showHelpSetInterval;
+
+  const showHelpSet = () => {
     isSetButton.innerHTML = helpSet() ? "Van" : "Nincs";
-    await sleep(3000);
-    isSetButton.innerHTML = "Van SET a leosztásban?";
+    showHelpSetInterval = setInterval(() => {
+      showHelpSetCounter++;
+      if (showHelpSetCounter == 2) {
+        isSetButton.innerHTML = "Van SET a leosztásban?";
+        showHelpSetCounter = 0;
+        clearInterval(showHelpSetInterval);
+      }
+    }, 1000);
   };
 
-  const startTimer = async (cplayer) => {
+  let multiPlayerCounter = 9,
+    multiPlayerInterval;
+
+  const startTimer = (cplayer) => {
     let player = document.querySelector("#" + currentPlayer);
     let currPoints = Number(player.innerHTML);
     showSetButton.disabled = true;
     isSetButton.disabled = true;
     threeCardButton.disabled = true;
     playerDisabled = false;
-    for (let i = 9; i >= 0 && cardsActive; i--) {
-      timer.innerHTML = i;
+
+    const noMoreTime = () => {
+      players.style.pointerEvents = "auto";
+      timer.innerHTML = 10;
+      cardsActive = false;
+      showSetButton.disabled = false;
+      isSetButton.disabled = false;
+      if (cardsShuffled.length !== 0) threeCardButton.disabled = false;
+      document
+        .querySelectorAll("#main__cards-container img")
+        .forEach((x) => (x.style.boxShadow = ""));
+      selectedCards = [];
+      clickedCardCounter = 0;
+      player = document.querySelector("#" + currentPlayer);
+      if (
+        playerDisabled &&
+        enabledPlayers != 0 &&
+        Number(numberOfPlayers.innerHTML) > 1
+      ) {
+        cplayer.style.color = "grey";
+        cplayer.style.pointerEvents = "none";
+        cplayer.style.cursor = "no-drop";
+      } else {
+        if (Number(numberOfPlayers.innerHTML) > 1)
+          cplayer.style.color = "black";
+      }
+      if (enabledPlayers == 0) {
+        const playerButtons = document.querySelectorAll(
+          ".main__left-sidebar-player"
+        );
+        playerButtons.forEach((x) => {
+          x.style.pointerEvents = "all";
+          x.style.color = "black";
+          x.style.cursor = "pointer";
+        });
+        enabledPlayers = Number(numberOfPlayers.innerHTML);
+        playerDisabled = false;
+      }
+      if (
+        Number(player.innerHTML) > 0 &&
+        Number(player.innerHTML) == currPoints
+      )
+        player.innerHTML = Number(player.innerHTML - 1);
+    };
+
+    multiPlayerInterval = setInterval(() => {
+      timer.innerHTML = multiPlayerCounter;
       players.style.pointerEvents = "none";
-      if (i == 0 && Number(numberOfPlayers.innerHTML) > 1) {
+      if (multiPlayerCounter == 0 && Number(numberOfPlayers.innerHTML) > 1) {
         playerDisabled = true;
         enabledPlayers--;
       }
-      await sleep(1000);
-    }
-    players.style.pointerEvents = "auto";
-    timer.innerHTML = 10;
-    cardsActive = false;
-    showSetButton.disabled = false;
-    isSetButton.disabled = false;
-    if (cardsShuffled.length !== 0) threeCardButton.disabled = false;
-    document
-      .querySelectorAll("#main__cards-container img")
-      .forEach((x) => (x.style.boxShadow = ""));
-    selectedCards = [];
-    clickedCardCounter = 0;
-    player = document.querySelector("#" + currentPlayer);
-    if (
-      playerDisabled &&
-      enabledPlayers != 0 &&
-      Number(numberOfPlayers.innerHTML) > 1
-    ) {
-      cplayer.style.color = "grey";
-      cplayer.style.pointerEvents = "none";
-      cplayer.style.cursor = "no-drop";
-    } else {
-      if (Number(numberOfPlayers.innerHTML) > 1) cplayer.style.color = "black";
-    }
-    if (enabledPlayers == 0) {
-      const playerButtons = document.querySelectorAll(
-        ".main__left-sidebar-player"
-      );
-      playerButtons.forEach((x) => {
-        x.style.pointerEvents = "all";
-        x.style.color = "black";
-        x.style.cursor = "pointer";
-      });
-      enabledPlayers = Number(numberOfPlayers.innerHTML);
-      playerDisabled = false;
-    }
-    if (Number(player.innerHTML) > 0 && Number(player.innerHTML) == currPoints)
-      player.innerHTML = Number(player.innerHTML - 1);
+      if (multiPlayerCounter == 0 || !cardsActive) {
+        clearInterval(multiPlayerInterval);
+        multiPlayerCounter = 10;
+        noMoreTime();
+      }
+      multiPlayerCounter--;
+    }, 1000);
   };
 
   isSetButton.addEventListener("click", showHelpSet);
 
-  const showSet = async () => {
+  let showSetCounter = 0,
+    showSetInterval;
+
+  const showSet = () => {
     const tempPlayers = document.querySelectorAll(
       "#main__left-sidebar-players button"
     );
@@ -537,7 +566,6 @@ const render = () => {
                 onFieldCards[k].src,
               ])
             ) {
-              console.log(onFieldCards[i].src);
               const first = document.querySelector(
                 `img[src='res/cards/${onFieldCards[i].src}']`
               );
@@ -553,12 +581,20 @@ const render = () => {
               );
               third.style.boxShadow =
                 "-3px -3px 30px 3px red, 3px 3px 30px 3px red";
-              await sleep(800);
-              first.style.boxShadow = "";
-              second.style.boxShadow = "";
-              third.style.boxShadow = "";
+
               cond = false;
-              tempPlayers.forEach((x) => (x.style.pointerEvents = "auto"));
+
+              showSetInterval = setInterval(() => {
+                if (showSetCounter == 1) {
+                  first.style.boxShadow = "";
+                  second.style.boxShadow = "";
+                  third.style.boxShadow = "";
+                  tempPlayers.forEach((x) => (x.style.pointerEvents = "auto"));
+                  clearInterval(showSetInterval);
+                  showSetCounter = 0;
+                }
+                showSetCounter++;
+              }, 200);
             }
   };
 
