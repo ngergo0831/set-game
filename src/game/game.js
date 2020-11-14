@@ -19,6 +19,9 @@ let numOfFieldCards = 12;
 let onFieldCards;
 let plusThreeNoShuffled = false;
 let onePlayerInterval;
+let cardsShuffled = [];
+let selectedCards = [];
+let isCardsGood;
 
 const resetEverything = () => {
   numberOfPlayers = document.querySelector("#menu__player-number-text");
@@ -38,7 +41,6 @@ const resetEverything = () => {
   plusThreeNoShuffled = false;
   timer.innerHTML = 10;
 };
-
 
 const render = () => {
   const timerOnePlayer = () => {
@@ -154,9 +156,6 @@ const render = () => {
     threeCardButton.disabled = true;
   };
 
-  let cardsShuffled;
-  let selectedCards = [];
-  let isCardsGood;
   do {
     cardsShuffled = diffRadio.checked
       ? cards
@@ -604,6 +603,10 @@ const render = () => {
     const playerPoints = document.querySelector("#game-over__onePlayer-points");
     const thisPlayer = document.querySelector("#player-points1");
     playerPoints.innerHTML = thisPlayer.innerHTML;
+    clearInterval(showSetInterval);
+    clearInterval(multiPlayerInterval);
+    clearInterval(showHelpSetInterval);
+    clearInterval(onePlayerInterval);
     resetEverything();
   };
 
