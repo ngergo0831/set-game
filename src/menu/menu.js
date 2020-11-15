@@ -55,8 +55,15 @@ btnStart.addEventListener("click", () => {
 });
 
 const overScreen = document.querySelector("#game-over");
-const btnBackToMenu = document.querySelector("#game-over-buttonMenu");
-btnBackToMenu.addEventListener("click", () => {
+const btnBackToMenuOne = document.querySelector("#game-over-btnOnePlayerMenu");
+const btnBackToMenuMore = document.querySelector(
+  "#game-over-btnMorePlayersMenu"
+);
+btnBackToMenuOne.addEventListener("click", () => {
+  overScreen.style.display = "none";
+  menu.style.display = "grid";
+});
+btnBackToMenuMore.addEventListener("click", () => {
   overScreen.style.display = "none";
   menu.style.display = "grid";
 });

@@ -401,7 +401,81 @@ const createCards = (src, i) => {
             isSetButton.disabled = true;
             isSetButton.style.cursor = "no-drop";
             mainScreen.style.display = "none";
+            if (Number(numberOfPlayers.innerHTML) > 1) {
+              for (let inndex = 0; inndex < 10; inndex++) {
+                newChild1 = document.createElement("DIV");
+                newChild2 = document.createElement("DIV");
+                newChild3 = document.createElement("DIV");
+                newChild4 = document.createElement("DIV");
+                newChild1.setAttribute("class", "game-over__points-left");
+                if (inndex >= Number(numberOfPlayers.innerHTML)) {
+                  newChild1.style.color = "transparent";
+                  newChild1.style.userSelect = "none";
+                  newChild1.style.pointerEvents = "none";
+                  newChild1.style.border = "none";
+                }
+                newChild1.innerHTML = playerNames[inndex];
+                gameOverPointsTitles.appendChild(newChild1);
+
+                newChild2.setAttribute(
+                  "class",
+                  "game-over__points-right margin-right"
+                );
+                if (inndex >= Number(numberOfPlayers.innerHTML)) {
+                  newChild2.style.color = "transparent";
+                  newChild2.style.userSelect = "none";
+                  newChild2.style.pointerEvents = "none";
+                  newChild2.style.border = "none";
+                }
+                newChild2.innerHTML = currentPoints[inndex];
+                gameOverPointsTitles.appendChild(newChild2);
+
+                newChild3.setAttribute(
+                  "class",
+                  "game-over__points-left margin-left"
+                );
+                if (inndex >= Number(numberOfPlayers.innerHTML)) {
+                  newChild3.style.color = "transparent";
+                  newChild3.style.userSelect = "none";
+                  newChild3.style.pointerEvents = "none";
+                  newChild3.style.border = "none";
+                }
+                newChild3.innerHTML = playerNames[inndex];
+                gameOverPointsTitles.appendChild(newChild3);
+
+                newChild4.setAttribute("class", "game-over__points-right");
+                if (inndex >= Number(numberOfPlayers.innerHTML)) {
+                  newChild4.style.color = "transparent";
+                  newChild4.style.userSelect = "none";
+                  newChild4.style.pointerEvents = "none";
+                  newChild4.style.border = "none";
+                }
+                newChild4.innerHTML = aggregatedPoints[inndex];
+                gameOverPointsTitles.appendChild(newChild4);
+              }
+              if (!gameOverCheckbox.checked) {
+                playerNames = [
+                  "Játékos1",
+                  "Játékos2",
+                  "Játékos3",
+                  "Játékos4",
+                  "Játékos5",
+                  "Játékos6",
+                  "Játékos7",
+                  "Játékos8",
+                  "Játékos9",
+                  "Játékos10",
+                ];
+                currentPoints = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                aggregatedPoints = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+              }
+            }
             gameOverScreen.style.display = "flex";
+            if (Number(numberOfPlayers.innerHTML) > 1) {
+              gameOverOnePlayer.style.display = "none";
+            } else {
+              gameOverMorePlayers.style.display = "none";
+            }
             afterGame();
           }
           if (!plusThreeNoShuffled) {

@@ -9,6 +9,14 @@ const remainingCards = document.querySelector("#main__right-sidebar-remaining");
 const timer = document.querySelector("#main__left-sidebar-timer");
 const timerText = document.querySelector("#main__left-sidebar-remainingTime");
 const gameOverScreen = document.querySelector("#game-over");
+const gameOverOnePlayer = document.querySelector("#game-over__onePlayer");
+const gameOverMorePlayers = document.querySelector("#game-over__morePlayers");
+const gameOverPointsTitles = document.querySelector(
+  "#game-over__morePointsTitles"
+);
+const gameOverCheckbox = document.querySelector(
+  "#game-over__playWithSamePlayers"
+);
 let players = document.querySelector("#main__left-sidebar-players");
 let cardsContainer = document.querySelector("#main__cards-container");
 let numberOfPlayers = document.querySelector("#menu__player-number-text");
@@ -37,3 +45,11 @@ let multiPlayerInterval;
 let showSetCounter = 0;
 let showSetInterval;
 let firstGame = true;
+let newChild1;
+let newChild2;
+let newChild3;
+let newChild4;
+let loopPlayer;
+let playerStr;
+let currentPoints = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+let aggregatedPoints = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

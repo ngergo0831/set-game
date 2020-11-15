@@ -1,6 +1,8 @@
 const render = () => {
   cardsContainer = document.querySelector("#main__cards-container");
   diffRadio = document.querySelector("#menu__difficulty-radioBeginner");
+  gameOverOnePlayer.style.display = "block";
+  gameOverOnePlayer.style.display = "block";
   showSetButton.disabled = radioShowSetNo.checked;
   threeCardButton.disabled = radioThreeCardYes.checked;
   isSetButton.disabled = radioIsSetNo.checked;

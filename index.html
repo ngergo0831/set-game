@@ -370,7 +370,7 @@
         </div>
       </div>
     </div>
-    <div id="game-over" style="display: none">
+    <div id="game-over">
       <div id="game-over__onePlayer">
         <div class="game-over-title">A játék véget ért</div>
         <div class="game-over__onePlayer-congrats">Gratulálok!</div>
@@ -379,9 +379,44 @@
           Pontszám:
           <div id="game-over__onePlayer-points">10</div>
         </div>
-        <button id="game-over-buttonMenu">Vissza a főmenübe</button>
+        <button id="game-over-btnOnePlayerMenu" class="game-over-buttonMenu">
+          Vissza a főmenübe
+        </button>
       </div>
-      <div id="game-over__morePlayer"></div>
+      <div id="game-over__morePlayers">
+        <div class="game-over-titleMore">A játék véget ért</div>
+        <div class="game-over-secondTitle">Pontszámok</div>
+        <div id="game-over__morePointsTitles">
+          <div class="game-over__more-points-titles game-over__title-left">
+            Aktuális
+          </div>
+          <div class="game-over__more-points-titles game-over__title-right">
+            Összesített
+          </div>
+          <!-- Players names-->
+          <!-- Players actual points-->
+          <!-- Players names-->
+          <!-- Players aggregated points-->
+        </div>
+
+        <div class="game-over__checkbox">
+          <input
+            id="game-over__playWithSamePlayers"
+            type="checkbox"
+            class="game-over__play-with-same-players"
+          />
+          <label for="game-over__playWithSamePlayers"
+            >Játék ugyanezekkel a játékosokkal</label
+          >
+        </div>
+
+        <button
+          id="game-over-btnMorePlayersMenu"
+          class="game-over-buttonMenu-smallmargin"
+        >
+          Vissza a főmenübe
+        </button>
+      </div>
     </div>
     <script type="text/javascript" src="src/game/selectors.js"></script>
     <script type="text/javascript" src="data/cards.js"></script>

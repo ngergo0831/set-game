@@ -1,0 +1,27 @@
+#game-over__onePlayer {
+  text-align: center;
+  margin-left: 129px;
+  margin-right: 129px;
+}
+
+.game-over__onePlayer-congrats {
+  font-size: 1.7em;
+  text-align: center;
+}
+
+#game-over__onePlayer-time {
+  font-size: 1.6em;
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.game-over__onePlayer-points-text {
+  font-size: 1.6em;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+#game-over__onePlayer-points {
+  font-size: 1.2em;
+  text-align: center;
+}
