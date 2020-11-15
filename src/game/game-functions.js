@@ -19,6 +19,11 @@ const showHelpSet = () => {
 };
 
 const startTimer = (cplayer) => {
+  players.style.pointerEvents = "none";
+  let btnTemp = document.querySelectorAll(".main__left-sidebar-player");
+  btnTemp.forEach((x) => {
+    x.style.pointerEvents = "none";
+  });
   let player = document.querySelector("#" + currentPlayer);
   let num;
   if (currentPlayer[currentPlayer.length - 1] == "0") {
@@ -34,11 +39,15 @@ const startTimer = (cplayer) => {
 
   const noMoreTime = () => {
     players.style.pointerEvents = "all";
+    let btnTemp2 = document.querySelectorAll(".main__left-sidebar-player");
+    btnTemp2.forEach((x) => {
+      x.style.pointerEvents = "all";
+    });
     timer.innerHTML = 10;
     cardsActive = false;
     showSetButton.disabled = false;
     isSetButton.disabled = false;
-    if (cardsShuffled.length !== 0) threeCardButton.disabled = false;
+    if (cardsShuffled.length != 0) threeCardButton.disabled = false;
     document
       .querySelectorAll("#main__cards-container img")
       .forEach((x) => (x.style.boxShadow = ""));
@@ -65,6 +74,7 @@ const startTimer = (cplayer) => {
         x.style.color = "black";
         x.style.cursor = "pointer";
       });
+      players.style.pointerEvents = "all";
       enabledPlayers = Number(numberOfPlayers.innerHTML);
       playerDisabled = false;
     }
@@ -76,7 +86,6 @@ const startTimer = (cplayer) => {
 
   multiPlayerInterval = setInterval(() => {
     timer.innerHTML = multiPlayerCounter;
-    players.style.pointerEvents = "none";
     if (multiPlayerCounter == 0 && Number(numberOfPlayers.innerHTML) > 1) {
       playerDisabled = true;
       enabledPlayers--;
@@ -91,10 +100,11 @@ const startTimer = (cplayer) => {
 };
 
 const showSet = () => {
-  const tempPlayers = document.querySelectorAll(
+  /*const tempPlayers = document.querySelectorAll(
     "#main__left-sidebar-players button"
-  );
-  tempPlayers.forEach((x) => (x.style.pointerEvents = "none"));
+  );*/
+  //tempPlayers.forEach((x) => (x.style.pointerEvents = "none"));
+  players.style.pointerEvents = "none";
   let cond = true;
   for (let i = 0; i < numOfFieldCards && cond; i++)
     for (let j = i + 1; j < numOfFieldCards && cond; j++)
@@ -134,7 +144,8 @@ const showSet = () => {
                 first.style.boxShadow = "";
                 second.style.boxShadow = "";
                 third.style.boxShadow = "";
-                tempPlayers.forEach((x) => (x.style.pointerEvents = "auto"));
+                //tempPlayers.forEach((x) => (x.style.pointerEvents = "auto"));
+                players.style.pointerEvents = "all";
                 clearInterval(showSetInterval);
                 showSetCounter = 0;
               }
@@ -225,6 +236,7 @@ const createCards = (src, i) => {
   img.setAttribute("id", "card" + i);
   img.addEventListener("click", () => {
     if (cardsActive) {
+      players.style.pointerEvents = "none";
       if (img.style.boxShadow === "") {
         img.style.boxShadow = "-3px -3px 30px 3px red, 3px 3px 30px 3px blue";
         clickedCardCounter++;
@@ -296,6 +308,10 @@ const createCards = (src, i) => {
                         onFieldCards[j].content = "off";
                         onFieldCards[j].num = "off";
                         onFieldCards[j].shape = "off";
+                        let str = "#card" + j;
+                        let tempCard = document.querySelector(str);
+                        tempCard.style.pointerEvents = "none";
+                        tempCard.style.cursor = "no-drop"; //nem működik
                       }
                     } else {
                       if (indexes.length != 0) {
@@ -404,7 +420,7 @@ const createCards = (src, i) => {
                 }
               });
           }
-
+          //Game over
           if (!helpSet() && cardsShuffled.length == 0) {
             gameFinished = true;
             console.log("Game over");
@@ -512,13 +528,16 @@ const createCards = (src, i) => {
           const playerButtons = document.querySelectorAll(
             ".main__left-sidebar-player"
           );
-          if (Number(numberOfPlayers.innerHTML) > 1)
+          if (Number(numberOfPlayers.innerHTML) > 1) {
             playerButtons.forEach((x) => {
               x.style.pointerEvents = "all";
               x.style.color = "black";
               x.style.cursor = "pointer";
             });
+            players.style.pointerEvents = "all";
+          }
           playerDisabled = false;
+          enabledPlayers = Number(numberOfPlayers.innerHTML);
           remainingCards.innerHTML = cardsShuffled.length;
         } else {
           const playerNum =
@@ -529,6 +548,7 @@ const createCards = (src, i) => {
             "#player" + playerNum
           );
           if (Number(numberOfPlayers.innerHTML) > 1) {
+            players.style.pointerEvents = "none";
             currPlayerButton.style.pointerEvents = "none";
             currPlayerButton.style.color = "gray";
             currPlayerButton.style.cursor = "no-drop";
@@ -539,7 +559,9 @@ const createCards = (src, i) => {
             const playerButtons = document.querySelectorAll(
               ".main__left-sidebar-player"
             );
+            players.style.pointerEvents = "all";
             playerButtons.forEach((x) => {
+              console.log("inside img");
               x.style.pointerEvents = "all";
               x.style.color = "black";
               x.style.cursor = "pointer";
@@ -609,4 +631,15 @@ const createDeck = () => {
         .map((a) => ({ sort: Math.random(), value: a }))
         .sort((a, b) => a.sort - b.sort)
         .map((a) => a.value);
+};
+
+const changeScoreView = () => {
+  if (!radioActual.checked) {
+    radioActual.checked = true;
+    for (let i = 0; i < Number(numberOfPlayers.innerHTML); i++) {
+      let str = "#player-points" + (i + 1);
+      tempPlayer = document.querySelector(str);
+      tempPlayer.innerHTML = currentPoints[i];
+    }
+  }
 };

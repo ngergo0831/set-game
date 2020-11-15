@@ -8,6 +8,7 @@ const render = () => {
   isSetButton.disabled = radioIsSetNo.checked;
   clickedCardCounter = 0;
   cardsActive = false;
+  playerDisabled = false;
   currentPlayer = "";
   showHelpSetCounter = 0;
   multiPlayerCounter = 9;
@@ -21,12 +22,15 @@ const render = () => {
     player.setAttribute("id", "player" + (i + 1));
     player.innerHTML = playerNames[i];
     player.addEventListener("click", () => {
-      players.style.pointerEvents = "none";
+      playerDisabled = false;
       clickedCardCounter = 0;
       cardsActive = true;
       currentPlayer = "player-points" + (i + 1);
       player.style.color = "blue";
-      if (Number(numberOfPlayers.innerHTML) > 1) startTimer(player);
+      if (Number(numberOfPlayers.innerHTML) > 1) {
+        changeScoreView();
+        startTimer(player);
+      }
     });
 
     if (Number(numberOfPlayers.innerHTML) == 1) {
@@ -80,7 +84,6 @@ const render = () => {
         content: x.content,
       })
     );
-    //onFieldCards = cardsShuffled.slice(0, 12);
     isCardsGood = helpSet();
   } while (!isCardsGood);
 
