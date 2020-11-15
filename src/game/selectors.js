@@ -11,11 +11,18 @@ const timerText = document.querySelector("#main__left-sidebar-remainingTime");
 const gameOverScreen = document.querySelector("#game-over");
 const gameOverOnePlayer = document.querySelector("#game-over__onePlayer");
 const gameOverMorePlayers = document.querySelector("#game-over__morePlayers");
-const gameOverPointsTitles = document.querySelector(
-  "#game-over__morePointsTitles"
-);
 const gameOverCheckbox = document.querySelector(
   "#game-over__playWithSamePlayers"
+);
+const radioActual = document.querySelector("#main__left-sidebar-radioActual");
+const radioAggregated = document.querySelector(
+  "#main__left-sidebar-radioAggregated"
+);
+const labelAggregated = document.querySelector(
+  "#main__left-sidebar-labelAggregated"
+);
+let gameOverPointsTitles = document.querySelector(
+  "#game-over__morePointsTitles"
 );
 let players = document.querySelector("#main__left-sidebar-players");
 let cardsContainer = document.querySelector("#main__cards-container");
@@ -51,5 +58,6 @@ let newChild3;
 let newChild4;
 let loopPlayer;
 let playerStr;
+let tempPlayer;
 let currentPoints = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 let aggregatedPoints = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

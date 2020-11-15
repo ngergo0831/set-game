@@ -20,14 +20,20 @@ const showHelpSet = () => {
 
 const startTimer = (cplayer) => {
   let player = document.querySelector("#" + currentPlayer);
-  let currPoints = Number(player.innerHTML);
+  let num;
+  if (currentPlayer[currentPlayer.length - 1] == "0") {
+    num = 9;
+  } else {
+    num = Number(currentPlayer[currentPlayer.length - 1]) - 1;
+  }
+  let currPoints = currentPoints[num];
   showSetButton.disabled = true;
   isSetButton.disabled = true;
   threeCardButton.disabled = true;
   playerDisabled = false;
 
   const noMoreTime = () => {
-    players.style.pointerEvents = "auto";
+    players.style.pointerEvents = "all";
     timer.innerHTML = 10;
     cardsActive = false;
     showSetButton.disabled = false;
@@ -62,8 +68,10 @@ const startTimer = (cplayer) => {
       enabledPlayers = Number(numberOfPlayers.innerHTML);
       playerDisabled = false;
     }
-    if (Number(player.innerHTML) > 0 && Number(player.innerHTML) == currPoints)
-      player.innerHTML = Number(player.innerHTML - 1);
+    if (currentPoints[num] > 0 && currentPoints[num] == currPoints) {
+      currentPoints[num]--;
+      player.innerHTML = currentPoints[num];
+    }
   };
 
   multiPlayerInterval = setInterval(() => {
@@ -229,10 +237,16 @@ const createCards = (src, i) => {
       if (clickedCardCounter == 3) {
         selectedCards = selectedCards.map((x) => x.slice(-8));
         let player = document.querySelector("#" + currentPlayer);
+        let num;
+        if (currentPlayer[currentPlayer.length - 1] == "0") {
+          num = 9;
+        } else {
+          num = Number(currentPlayer[currentPlayer.length - 1]) - 1;
+        }
         if (checkSet(selectedCards)) {
           console.log("SET");
-          player.innerHTML = Number(player.innerHTML) + 1;
-
+          currentPoints[num]++;
+          player.innerHTML = currentPoints[num];
           let indexes = [];
 
           if (numOfFieldCards != 12) {
@@ -402,6 +416,17 @@ const createCards = (src, i) => {
             isSetButton.style.cursor = "no-drop";
             mainScreen.style.display = "none";
             if (Number(numberOfPlayers.innerHTML) > 1) {
+              currentPoints.forEach((numm, index) => {
+                aggregatedPoints[index] += numm;
+              });
+              gameOverPointsTitles = document.querySelector(
+                "#game-over__morePointsTitles"
+              );
+              while (gameOverPointsTitles.children.item(2)) {
+                gameOverPointsTitles.removeChild(
+                  gameOverPointsTitles.lastChild
+                );
+              }
               for (let inndex = 0; inndex < 10; inndex++) {
                 newChild1 = document.createElement("DIV");
                 newChild2 = document.createElement("DIV");
@@ -453,29 +478,15 @@ const createCards = (src, i) => {
                 newChild4.innerHTML = aggregatedPoints[inndex];
                 gameOverPointsTitles.appendChild(newChild4);
               }
-              if (!gameOverCheckbox.checked) {
-                playerNames = [
-                  "Játékos1",
-                  "Játékos2",
-                  "Játékos3",
-                  "Játékos4",
-                  "Játékos5",
-                  "Játékos6",
-                  "Játékos7",
-                  "Játékos8",
-                  "Játékos9",
-                  "Játékos10",
-                ];
-                currentPoints = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                aggregatedPoints = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-              }
             }
+            currentPoints = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             gameOverScreen.style.display = "flex";
             if (Number(numberOfPlayers.innerHTML) > 1) {
               gameOverOnePlayer.style.display = "none";
             } else {
               gameOverMorePlayers.style.display = "none";
             }
+            players.style.pointerEvents = "all";
             afterGame();
           }
           if (!plusThreeNoShuffled) {
@@ -536,8 +547,10 @@ const createCards = (src, i) => {
             enabledPlayers = Number(numberOfPlayers.innerHTML);
             playerDisabled = false;
           }
-          if (Number(player.innerHTML) > 0)
-            player.innerHTML = Number(player.innerHTML) - 1;
+          if (currentPoints[num] > 0) {
+            currentPoints[num]--;
+            player.innerHTML = currentPoints[num];
+          }
         }
         if (Number(numberOfPlayers.innerHTML) > 1) cardsActive = false;
         clickedCardCounter = 0;

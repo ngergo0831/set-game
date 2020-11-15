@@ -64,6 +64,22 @@ btnBackToMenuOne.addEventListener("click", () => {
   menu.style.display = "grid";
 });
 btnBackToMenuMore.addEventListener("click", () => {
+  if (!gameOverCheckbox.checked) {
+    playerNames = [
+      "Játékos1",
+      "Játékos2",
+      "Játékos3",
+      "Játékos4",
+      "Játékos5",
+      "Játékos6",
+      "Játékos7",
+      "Játékos8",
+      "Játékos9",
+      "Játékos10",
+    ];
+    aggregatedPoints = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  }
+  currentPoints = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   overScreen.style.display = "none";
   menu.style.display = "grid";
 });

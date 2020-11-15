@@ -21,6 +21,7 @@ const render = () => {
     player.setAttribute("id", "player" + (i + 1));
     player.innerHTML = playerNames[i];
     player.addEventListener("click", () => {
+      players.style.pointerEvents = "none";
       clickedCardCounter = 0;
       cardsActive = true;
       currentPlayer = "player-points" + (i + 1);
@@ -45,8 +46,26 @@ const render = () => {
     players.appendChild(playerFlex);
   }
 
-  if (Number(numberOfPlayers.innerHTML) == 1) timerOnePlayer();
-
+  if (Number(numberOfPlayers.innerHTML) == 1) {
+    radioAggregated.disabled = true;
+    labelAggregated.style.cursor = "no-drop";
+    timerOnePlayer();
+  } else {
+    radioAggregated.addEventListener("click", () => {
+      for (let i = 0; i < Number(numberOfPlayers.innerHTML); i++) {
+        let str = "#player-points" + (i + 1);
+        tempPlayer = document.querySelector(str);
+        tempPlayer.innerHTML = aggregatedPoints[i];
+      }
+    });
+    radioActual.addEventListener("click", () => {
+      for (let i = 0; i < Number(numberOfPlayers.innerHTML); i++) {
+        let str = "#player-points" + (i + 1);
+        tempPlayer = document.querySelector(str);
+        tempPlayer.innerHTML = currentPoints[i];
+      }
+    });
+  }
   //Create shuffled cards array
   do {
     cardsShuffled = [];
