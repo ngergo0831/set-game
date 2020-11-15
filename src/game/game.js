@@ -15,6 +15,9 @@ const render = () => {
   showSetCounter = 0;
   onFieldCards = [];
 
+  if (!radioThreeCardYes.checked) {
+    threeCardButton.style.cursor = "pointer";
+  }
   //Create players
   for (let i = 0; i < Number(playerText.innerHTML); i++) {
     const player = document.createElement("BUTTON");

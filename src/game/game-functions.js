@@ -425,11 +425,11 @@ const createCards = (src, i) => {
             gameFinished = true;
             console.log("Game over");
             threeCardButton.disabled = true;
-            threeCardButton.style.cursor = "no-drop";
+            threeCardButton.style.cursor = "pointer";
             showSetButton.disabled = true;
-            showSetButton.style.cursor = "no-drop";
+            showSetButton.style.cursor = "pointer";
             isSetButton.disabled = true;
-            isSetButton.style.cursor = "no-drop";
+            isSetButton.style.cursor = "pointer";
             mainScreen.style.display = "none";
             if (Number(numberOfPlayers.innerHTML) > 1) {
               currentPoints.forEach((numm, index) => {
@@ -535,6 +535,12 @@ const createCards = (src, i) => {
               x.style.cursor = "pointer";
             });
             players.style.pointerEvents = "all";
+          }
+          if (cardsShuffled.length > 2) {
+            threeCardButton.style.cursor = "pointer";
+          } else {
+            threeCardButton.style.cursor = "no-drop";
+            threeCardButton.disabled = true;
           }
           playerDisabled = false;
           enabledPlayers = Number(numberOfPlayers.innerHTML);
