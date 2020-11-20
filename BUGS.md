@@ -1,6 +1,5 @@
 TASKS
 
-- [ ] settings player names input csak annyi ahány player (color,user-select,pointerEvents,border)
 - [ ] toplista design
 - [ ] egy játékos esetén idő mentése toplistába
 - [ ] toplista 1 játékos esetén kezdő / haladó időeredmény

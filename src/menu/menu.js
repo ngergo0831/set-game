@@ -106,6 +106,20 @@ btnRulesBack.addEventListener("click", () => {
 const playerSet = document.querySelector("#menu-settings-player-names");
 const playerNameSet = document.querySelector("#menu-player-names");
 playerSet.addEventListener("click", () => {
+  const thisPlayers = document.querySelectorAll(".menu-settings-players");
+  thisPlayers.forEach((x, i) => {
+    if (i >= Number(playerText.innerHTML)) {
+      x.lastChild.style.color = "transparent";
+      x.lastChild.style.borderColor = "transparent";
+      x.style.pointerEvents = "none";
+      x.style.color = "transparent";
+    } else {
+      x.lastChild.style.color = "black";
+      x.lastChild.style.borderColor = "black";
+      x.style.pointerEvents = "all";
+      x.style.color = "black";
+    }
+  });
   settings.style.display = "none";
   playerNameSet.style.display = "flex";
 });
