@@ -39,7 +39,7 @@ Az alap feladatok (14 pont)
 - [x] "Hol van SET?" segítség gomb a beállításoknak megfelelően megjelenik és helyesen működik (0,5 pont)
 - [x] "Plusz 3 lap" gomb a beállításoknak megfelelően megjelenik és helyesen működik (1 pont)
 - [x] "Plusz 3 lap" adása automatikusan megtörténik, ha nincs SET (1 pont)
-- [végén még nem] Játék közben és végén a pontszám megjelenítése (0,5 pont)
+- [x] Játék közben és végén a pontszám megjelenítése (0,5 pont)
 - [x] Nincs nagyobb programhiba, nem csalhatók elő furcsa jelenségek (0,5 pont)
 - [x] Igényes kialakítás (1 pont)
 
