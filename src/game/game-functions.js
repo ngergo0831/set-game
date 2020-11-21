@@ -494,6 +494,133 @@ const createCards = (src, i) => {
                 newChild4.innerHTML = aggregatedPoints[inndex];
                 gameOverPointsTitles.appendChild(newChild4);
               }
+            } else {
+              //store one player points to local storage
+              if (!gameMode.checked) {
+                let onePlayerResults = [];
+                playerOne = document.querySelector("#player1");
+                //kezdő
+                if (diffRadio.checked){
+                  if (
+                    localStorage.getItem("onePlayerResultsBeginner") != null
+                  ) {
+                    onePlayerResults = JSON.parse(
+                      localStorage.getItem("onePlayerResultsBeginner")
+                    );
+                    if (onePlayerResults.length < 10) {
+                      let inserted = false;
+                      onePlayerResults.forEach((x, ix) => {
+                        if (
+                          Number(timer.innerText) < Number(x.time) &&
+                          !inserted
+                        ) {
+                          onePlayerResults.splice(ix, 0, {
+                            name: playerOne.innerText,
+                            time: timer.innerText,
+                          });
+                          inserted = true;
+                        } else if (
+                          Number(timer.innerText) == Number(x.time) &&
+                          !inserted
+                        ) {
+                          onePlayerResults.splice(ix + 1, 0, {
+                            name: playerOne.innerText,
+                            time: timer.innerText,
+                          });
+                          inserted = true;
+                        }
+                      });
+                      localStorage.setItem(
+                        "onePlayerResultsBeginner",
+                        JSON.stringify(onePlayerResults)
+                      );
+                    } else {
+                      let inserted = false;
+                      onePlayerResults.forEach((x, ix) => {
+                        if (
+                          Number(timer.innerText) < Number(x.time) &&
+                          !inserted
+                        ) {
+                          onePlayerResults[ix] = {
+                            name: playerOne.innerText,
+                            time: timer.innerText,
+                          };
+                          inserted = true;
+                        }
+                      });
+                    }
+                  } else {
+                    onePlayerResults.push({
+                      name: playerOne.innerText,
+                      time: timer.innerText,
+                    });
+                    localStorage.setItem(
+                      "onePlayerResultsBeginner",
+                      JSON.stringify(onePlayerResults)
+                    );
+                  }
+                }else{
+                  //haladó
+                  if (
+                    localStorage.getItem("onePlayerResultsIntermediate") != null
+                  ) {
+                    onePlayerResults = JSON.parse(
+                      localStorage.getItem("onePlayerResultsIntermediate")
+                    );
+                    if (onePlayerResults.length < 10) {
+                      let inserted = false;
+                      onePlayerResults.forEach((x, ix) => {
+                        if (
+                          Number(timer.innerText) < Number(x.time) &&
+                          !inserted
+                        ) {
+                          onePlayerResults.splice(ix, 0, {
+                            name: playerOne.innerText,
+                            time: timer.innerText,
+                          });
+                          inserted = true;
+                        } else if (
+                          Number(timer.innerText) == Number(x.time) &&
+                          !inserted
+                        ) {
+                          onePlayerResults.splice(ix + 1, 0, {
+                            name: playerOne.innerText,
+                            time: timer.innerText,
+                          });
+                          inserted = true;
+                        }
+                      });
+                      localStorage.setItem(
+                        "onePlayerResultsIntermediate",
+                        JSON.stringify(onePlayerResults)
+                      );
+                    } else {
+                      let inserted = false;
+                      onePlayerResults.forEach((x, ix) => {
+                        if (
+                          Number(timer.innerText) < Number(x.time) &&
+                          !inserted
+                        ) {
+                          onePlayerResults[ix] = {
+                            name: playerOne.innerText,
+                            time: timer.innerText,
+                          };
+                          inserted = true;
+                        }
+                      });
+                    }
+                  } else {
+                    onePlayerResults.push({
+                      name: playerOne.innerText,
+                      time: timer.innerText,
+                    });
+                    localStorage.setItem(
+                      "onePlayerResultsIntermediate",
+                      JSON.stringify(onePlayerResults)
+                    );
+                  }
+                }
+              }
             }
             currentPoints = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             gameOverScreen.style.display = "flex";

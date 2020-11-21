@@ -190,7 +190,6 @@ modePractice.addEventListener("click", () => {
   radioLabel.forEach((x) => {
     x.style.cursor = "pointer";
   });
-  //1 személyes nincs időmérés
 });
 
 modeCompetitive.addEventListener("click", () => {
@@ -209,5 +208,86 @@ modeCompetitive.addEventListener("click", () => {
   radioLabel.forEach((x) => {
     x.style.cursor = "no-drop";
   });
-  //1 személy van időmérés
+});
+
+const scoreBoard = document.querySelector("#menu-scoreboard");
+const btnScoreBoard = document.querySelector("#menu__subScoreboard");
+const btnScoreBack = document.querySelector("#menu-scoreboard__btnMenuBack");
+let scoresContainer = document.querySelector(
+  "#menu-scoreboard__scoresContainer"
+);
+btnScoreBoard.addEventListener("click", () => {
+  menu.style.display = "none";
+  scoreBoard.style.display = "flex";
+
+  //Scores
+  while (scoresContainer.children.item(2)) {
+    scoresContainer.removeChild(scoresContainer.lastChild);
+  }
+
+  let onePlayerBeginner = localStorage.getItem("onePlayerResultsBeginner");
+  let onePlayerIntermediate = localStorage.getItem(
+    "onePlayerResultsIntermediate"
+  );
+  if (onePlayerBeginner != null)
+    onePlayerBeginner = JSON.parse(
+      localStorage.getItem("onePlayerResultsBeginner")
+    );
+  if (onePlayerIntermediate != null)
+    onePlayerIntermediate = JSON.parse(
+      localStorage.getItem("onePlayerResultsIntermediate")
+    );
+  for (let i = 0; i < 10; i++) {
+    let new1 = document.createElement("DIV");
+    let new2 = document.createElement("DIV");
+    let new3 = document.createElement("DIV");
+    let new4 = document.createElement("DIV");
+    let new5 = document.createElement("DIV");
+    let new6 = document.createElement("DIV");
+
+    new1.setAttribute("class", "menu-scoreboard__score-number");
+    new1.innerHTML = Number(Number(i) + 1) + ".";
+    scoresContainer.appendChild(new1);
+
+    if (onePlayerBeginner != null && onePlayerBeginner.length > i) {
+      new2.setAttribute("class", "menu-scoreboard__score-player");
+      new2.innerHTML = onePlayerBeginner[i].name;
+    } else {
+      new2.innerHTML = " ";
+    }
+    scoresContainer.appendChild(new2);
+
+    if (onePlayerBeginner != null && onePlayerBeginner.length > i) {
+      new3.setAttribute("class", "menu-scoreboard__score-time msst-right");
+      new3.innerHTML = onePlayerBeginner[i].time + "mp";
+    } else {
+      new3.innerHTML = " ";
+    }
+    scoresContainer.appendChild(new3);
+
+    new4.setAttribute("class", "menu-scoreboard__score-number");
+    new4.innerHTML = Number(Number(i) + 1) + ".";
+    scoresContainer.appendChild(new4);
+
+    if (onePlayerIntermediate != null && onePlayerIntermediate.length > i) {
+      new5.setAttribute("class", "menu-scoreboard__score-player");
+      new5.innerHTML = onePlayerIntermediate[i].name;
+    } else {
+      new5.innerHTML = " ";
+    }
+    scoresContainer.appendChild(new5);
+
+    if (onePlayerIntermediate != null && onePlayerIntermediate.length > i) {
+      new6.setAttribute("class", "menu-scoreboard__score-time");
+      new6.innerHTML = onePlayerIntermediate[i].time + "mp";
+    } else {
+      new6.innerHTML = " ";
+    }
+    scoresContainer.appendChild(new6);
+  }
+});
+
+btnScoreBack.addEventListener("click", () => {
+  menu.style.display = "grid";
+  scoreBoard.style.display = "none";
 });

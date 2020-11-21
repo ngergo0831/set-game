@@ -21,6 +21,7 @@ const radioAggregated = document.querySelector(
 const labelAggregated = document.querySelector(
   "#main__left-sidebar-labelAggregated"
 );
+const gameMode = document.querySelector("#menu__mode-switcher-radioPractice");
 let gameOverPointsTitles = document.querySelector(
   "#game-over__morePointsTitles"
 );
@@ -31,6 +32,7 @@ let diffRadio = document.querySelector("#menu__difficulty-radioBeginner");
 let playerTime = document.querySelector("#game-over__onePlayer-time");
 let playerPoints = document.querySelector("#game-over__onePlayer-points");
 let thisPlayer = document.querySelector("#player-points1");
+let playerOne = document.querySelector("#player1");
 
 let gameFinished = false;
 let playerDisabled = false;
